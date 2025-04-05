@@ -1,0 +1,5 @@
+# Redirects from what the browser requests to what Netlify serves
+# This ensures that all routes are handled by the React Router
+# and direct URL access works properly
+
+/*    /index.html   200

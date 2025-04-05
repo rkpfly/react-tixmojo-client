@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated on 2025-04-04, Updated with interactive features -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Home Page -->
+  <url>
+    <loc>https://tixmojo.netlify.app/</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Event Detail Pages - Spotlight Events -->
+  <url>
+    <loc>https://tixmojo.netlify.app/events/exclusive-arts-gala</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/vip-jazz-evening</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Event Detail Pages - Sydney Events -->
+  <url>
+    <loc>https://tixmojo.netlify.app/events/sydney-opera-house-symphony</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/sydney-harbour-food-festival</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/bondi-beach-volleyball-tournament</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Event Detail Pages - Singapore Events -->
+  <url>
+    <loc>https://tixmojo.netlify.app/events/gardens-by-the-bay-light-festival</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/singapore-night-food-tour</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/marina-bay-tech-conference</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Event Detail Pages - Flyer Events -->
+  <url>
+    <loc>https://tixmojo.netlify.app/events/bollywood-sydney</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/st-patricks-day</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/love-is-blind</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Event Detail Pages - Additional Events -->
+  <url>
+    <loc>https://tixmojo.netlify.app/events/sydney-art-festival</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/sydney-cultural-night</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/downtown-jazz-series</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/sunset-jazz-cruise</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/beethoven-symphony-night</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/family-orchestra-adventure</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <url>
+    <loc>https://tixmojo.netlify.app/events/movie-scores-concert</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Error Page - Lower priority -->
+  <url>
+    <loc>https://tixmojo.netlify.app/page-not-found</loc>
+    <lastmod>2025-04-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.1</priority>
+  </url>
+</urlset>

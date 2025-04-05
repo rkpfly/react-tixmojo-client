@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            line-height: 1.6;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            white-space: pre-wrap;
+        }
+        button {
+            padding: 8px 16px;
+            background-color: #6f44ff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #5c31e6;
+        }
+    </style>
+</head>
+<body>
+    <h1>API Test Page</h1>
+    <p>Click the button to fetch event data and check if tags are correctly returned:</p>
+    
+    <div>
+        <button id="fetchButton">Fetch Event Data</button>
+    </div>
+    
+    <div id="result">Results will appear here...</div>
+
+    <script>
+        document.getElementById('fetchButton').addEventListener('click', async () => {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = 'Loading...';
+            
+            try {
+                // Replace with your actual API URL
+                const response = await fetch('http://localhost:5000/api/events/todays-live-concert');
+                const data = await response.json();
+                
+                // Display the full response
+                resultDiv.innerHTML = 'Full response:\n' + JSON.stringify(data, null, 2);
+                
+                // Focus on tags
+                if (data.data && data.data.tags) {
+                    resultDiv.innerHTML += '\n\nTags found:\n' + JSON.stringify(data.data.tags, null, 2);
+                    resultDiv.innerHTML += '\n\nIs tags an array? ' + Array.isArray(data.data.tags);
+                    resultDiv.innerHTML += '\n\nTags length: ' + (Array.isArray(data.data.tags) ? data.data.tags.length : 'Not an array');
+                } else {
+                    resultDiv.innerHTML += '\n\nNo tags found in response';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>

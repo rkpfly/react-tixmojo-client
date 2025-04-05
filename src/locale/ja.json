@@ -1,0 +1,319 @@
+{
+    "navbar": {
+        "logo": "TIXMOJO",
+        "search": "イベントを検索..."
+    },
+    "footer": {
+        "copyright": "Copyright 2025 | All Right Reserved with TIXMOJO",
+        "about": "TixMojoは、お住まいの街で最高のイベント、コンサート、公演のチケットを発見し予約するためのワンストッププラットフォームです。",
+        "tnc": {
+            "privacy": "プライバシーポリシー",
+            "refund": "返金規定",
+            "terms": "利用規約"
+        },
+        "information": {
+            "title": "情報",
+            "redirects": {
+                "one": "会社概要",
+                "two": "ブログ",
+                "three": "イベント"
+            }
+        },
+        "links": {
+            "title": "役立つリンク",
+            "redirects": {
+                "one": "利用規約",
+                "two": "プライバシーポリシー",
+                "three": "返金規定"
+            }
+        },
+        "contact": {
+            "title": "お問い合わせ",
+            "redirects": {
+                "one": "+61 483952024",
+                "two": "info@tixmojo.com"
+            },
+            "address": "123 イベントストリート、シドニー、NSW 2000、オーストラリア"
+        },
+        "categories": {
+            "title": "イベントカテゴリー",
+            "list": [
+                "コンサート", 
+                "フェスティバル",
+                "演劇",
+                "コメディ",
+                "スポーツ",
+                "芸術",
+                "ファミリー",
+                "ワークショップ",
+                "ナイトライフ",
+                "文化"
+            ]
+        },
+        "social": {
+            "title": "フォローする",
+            "networks": [
+                { "name": "Facebook", "icon": "IoLogoFacebook" },
+                { "name": "Twitter", "icon": "IoLogoTwitter" },
+                { "name": "Instagram", "icon": "IoLogoInstagram" },
+                { "name": "LinkedIn", "icon": "FaLinkedinIn" },
+                { "name": "YouTube", "icon": "FaYoutube" }
+            ]
+        },
+        "newsletter": {
+            "title": "ニュースレターを購読する",
+            "placeholder": "メールアドレス",
+            "button": "購読する"
+        },
+        "otherLinks": {
+            "title": "クイックリンク",
+            "contactUs": "お問い合わせ"
+        }
+    },
+    "eventsSection": {
+        "sectionTitles": {
+            "popular": "のイベント",
+            "recommended": "おすすめ",
+            "spotlight": "注目のイベント"
+        },
+        "subtitle": {
+            "spotlight": "見逃せない厳選イベントのセレクション"
+        },
+        "filters": {
+            "all": "すべて",
+            "today": "今日",
+            "tomorrow": "明日",
+            "thisWeek": "今週"
+        },
+        "locations": {
+            "default": "Sydney",
+            "sydney": "シドニー",
+            "melbourne": "メルボルン",
+            "singapore": "シンガポール",
+            "brisbane": "ブリスベン",
+            "tokyo": "東京",
+            "london": "ロンドン",
+            "newYork": "ニューヨーク"
+        },
+        "availableLocations": ["sydney", "melbourne", "singapore", "tokyo", "newYork"],
+        "noEvents": {
+            "title": "イベントがありません",
+            "message": "{{location}}の\"{{filter}}\"フィルターでイベントが見つかりませんでした",
+            "viewAll": "すべてのイベントを表示"
+        },
+        "events": {
+            "today": {
+                "live": "今日のライブコンサート",
+                "jazz": "今日のジャズナイト",
+                "outdoor": "今日の野外フェスティバル",
+                "comedy": "今日のコメディショー",
+                "food": "今日の食品試食会",
+                "melbourne": "メルボルンジャズフェスティバル"
+            },
+            "tomorrow": {
+                "dance": "明日のダンスパーティー",
+                "comedy": "明日のコメディショー",
+                "art": "明日のアート展示会",
+                "food": "明日の食品フェスティバル",
+                "tech": "明日のテクノロジーカンファレンス",
+                "melbourne": "コメディフェスティバル"
+            },
+            "thisWeek": {
+                "festival": "今週のフェスティバル",
+                "indie": "今週のインディーロック",
+                "theater": "今週の劇場ショー",
+                "fashion": "今週のファッションショー",
+                "music": "今週の音楽フェスティバル",
+                "melbourne": "文化ショーケース"
+            },
+            "other": {
+                "symphony": "来月のシンフォニー",
+                "edm": "来週のEDMパーティー",
+                "art": "来月のアート展示"
+            }
+        },
+        "priceLabel": "AUD {{price}}から",
+        "eventsData": [
+            {
+                "eventName": "今日のライブコンサート",
+                "eventAddress": "パルスライブ（旧ヤン）、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "399",
+                "eventPoster": "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 95,
+                "eventRanking": "1",
+                "eventDateType": "today"
+            },
+            {
+                "eventName": "明日のダンスパーティー",
+                "eventAddress": "マリーナベイサンズ、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "299",
+                "eventPoster": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2574&auto=format&fit=crop",
+                "rankScore": 90,
+                "eventRanking": "1",
+                "eventDateType": "tomorrow"
+            },
+            {
+                "eventName": "今週のフェスティバル",
+                "eventAddress": "ナショナルスタジアム、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "499",
+                "eventPoster": "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 88,
+                "eventRanking": "1",
+                "eventDateType": "thisWeek"
+            },
+            {
+                "eventName": "今日のジャズナイト",
+                "eventAddress": "エスプラネードコンサートホール、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "199",
+                "eventPoster": "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 85,
+                "eventRanking": "2",
+                "eventDateType": "today"
+            },
+            {
+                "eventName": "明日のコメディショー",
+                "eventAddress": "セントーサビーチ、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "249",
+                "eventPoster": "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?q=80&w=2850&auto=format&fit=crop",
+                "rankScore": 82,
+                "eventRanking": "2",
+                "eventDateType": "tomorrow"
+            },
+            {
+                "eventName": "来月のシンフォニー",
+                "eventAddress": "ビクトリアコンサートホール、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "349",
+                "eventPoster": "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 75,
+                "eventRanking": "1",
+                "eventDateType": "nextMonth"
+            },
+            {
+                "eventName": "来週のEDMパーティー",
+                "eventAddress": "ガーデンズバイザベイ、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "450",
+                "eventPoster": "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 80,
+                "eventRanking": "1",
+                "eventDateType": "nextWeek"
+            },
+            {
+                "eventName": "今週のインディーロック",
+                "eventAddress": "ザプロモントリー、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "279",
+                "eventPoster": "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 78,
+                "eventRanking": "2",
+                "eventDateType": "thisWeek"
+            },
+            {
+                "eventName": "今日の野外フェスティバル",
+                "eventAddress": "植物園、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "159",
+                "eventPoster": "https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 70,
+                "eventRanking": "3",
+                "eventDateType": "today"
+            },
+            {
+                "eventName": "明日のアート展示会",
+                "eventAddress": "現代美術館、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "120",
+                "eventPoster": "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 65,
+                "eventRanking": "3",
+                "eventDateType": "tomorrow"
+            },
+            {
+                "eventName": "今週の劇場ショー",
+                "eventAddress": "シドニーオペラハウス、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "299",
+                "eventPoster": "https://images.unsplash.com/photo-1607998803461-4e9aaa2291a0?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 60,
+                "eventRanking": "3",
+                "eventDateType": "thisWeek"
+            }
+        ],
+        "dateFormat": {
+            "months": ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"]
+        },
+        "spotlightEvents": [
+            {
+                "eventName": "特別アートガラ",
+                "eventAddress": "ナショナルギャラリー、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "299",
+                "eventPoster": "https://images.unsplash.com/photo-1604871000636-074fa5117945?q=80&w=2787&auto=format&fit=crop",
+                "rankScore": 98,
+                "eventRanking": "1",
+                "eventDateType": "nextWeek"
+            },
+            {
+                "eventName": "VIPジャズナイト",
+                "eventAddress": "オペラハウス、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "349",
+                "eventPoster": "https://images.unsplash.com/photo-1501612780327-45045538702b?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 95,
+                "eventRanking": "2",
+                "eventDateType": "thisWeek"
+            },
+            {
+                "eventName": "プレミア映画祭",
+                "eventAddress": "ルナパークシネマ、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "199",
+                "eventPoster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=2825&auto=format&fit=crop",
+                "rankScore": 93,
+                "eventRanking": "3",
+                "eventDateType": "nextMonth"
+            },
+            {
+                "eventName": "料理マスタークラス",
+                "eventAddress": "ダーリングハーバーコンベンション、シドニー",
+                "eventLocation": "シドニー", 
+                "eventPrice": "129",
+                "eventPoster": "https://images.unsplash.com/photo-1555244162-803834f70033?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 91,
+                "eventRanking": "4",
+                "eventDateType": "tomorrow"
+            },
+            {
+                "eventName": "テックイノベーションサミット",
+                "eventAddress": "国際コンベンションセンター、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "249",
+                "eventPoster": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2940&auto=format&fit=crop",
+                "rankScore": 89,
+                "eventRanking": "5",
+                "eventDateType": "nextWeek"
+            },
+            {
+                "eventName": "ファッションウィークショーケース",
+                "eventAddress": "ロイヤル植物園、シドニー",
+                "eventLocation": "シドニー",
+                "eventPrice": "179",
+                "eventPoster": "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=2787&auto=format&fit=crop",
+                "rankScore": 87,
+                "eventRanking": "6",
+                "eventDateType": "thisWeek"
+            }
+        ]
+    },
+    "pageNotFound": {
+        "title": "Page Not Found",
+        "message": "Sorry, the page you are looking for does not exist.",
+        "redirect": "Go back to Home"
+    }
+}
