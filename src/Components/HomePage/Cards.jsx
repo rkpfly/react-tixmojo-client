@@ -197,7 +197,6 @@ const Cards = memo(function Cards({
             fontSize: "18px",
             fontWeight: "700",
             lineHeight: "1.4",
-            color: "var(--dark)",
             margin: "0",
             transition: "color 0.3s ease",
             color: isHovered ? "var(--primary)" : "var(--dark)",

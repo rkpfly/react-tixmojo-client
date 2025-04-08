@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 
-const PromoCode = ({ onApplyPromo }) => {
+const PromoCode = ({ onApplyPromo, initialDiscount = 0 }) => {
   const [promoCode, setPromoCode] = useState('');
   const [isApplying, setIsApplying] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  
+  // If an initial discount is provided, set success message
+  React.useEffect(() => {
+    if (initialDiscount > 0) {
+      setSuccess(`Promo code applied: ${initialDiscount * 100}% discount`);
+    }
+  }, [initialDiscount]);
 
   const handleApplyPromo = () => {
     if (!promoCode.trim()) {

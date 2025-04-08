@@ -46,6 +46,7 @@ const TabMoreInfo = ({
       
       {/* FAQ Section */}
       <EventFAQSection 
+        faq={event.faq}
         showMoreOptions={showMoreOptions}
         setShowMoreOptions={setShowMoreOptions}
       />

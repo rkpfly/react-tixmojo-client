@@ -4,10 +4,11 @@ import { PiListHeartBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import "../Style/sidebarAnimation.css";
 import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 const styles = {
   sidebar: {
-    width: "250px",
+    width: "280px", // Increased width for phone number display
     height: "auto",
     maxHeight: "90vh",
     backgroundColor: "var(--purple-50)",
@@ -81,6 +82,7 @@ const styles = {
     alignItems: "center",
     justifyContent: "center",
     marginRight: "15px",
+    overflow: "hidden", // For image containment
   },
   profileName: {
     fontWeight: "700",
@@ -115,9 +117,26 @@ const styles = {
 };
 
 export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
+  const { currentUser, isAuthenticated, logout } = useAuth();
+  
   const handleClick = () => {
     toggleUserSidebar();
   };
+  
+  const handleLogout = () => {
+    logout();
+    toggleUserSidebar();
+  };
+
+  // Debug auth state whenever sidebar opens
+  useEffect(() => {
+    if (isUserSidebarOpen) {
+      console.log("UserSidebar auth state:", { 
+        isAuthenticated: isAuthenticated(),
+        currentUser
+      });
+    }
+  }, [isUserSidebarOpen, isAuthenticated, currentUser]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -144,19 +163,45 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [isUserSidebarOpen, toggleUserSidebar]);
+  
+  // User sidebar component
 
   return (
     <>
-      <div style={styles.overlay} onClick={handleClick}></div>
+      <div style={styles.overlay} onClick={(e) => {
+        e.preventDefault();
+        handleClick();
+      }}></div>
       <div style={styles.sidebar} id="userSidebar">
         {/* User profile section */}
         <div style={styles.profileHeader}>
           <div style={styles.profileAvatar}>
-            <BiUser style={{ color: "white", fontSize: "26px" }} />
+            {isAuthenticated() && (currentUser?.profilePicture || currentUser?.picture) ? (
+              <img 
+                src={currentUser.profilePicture || currentUser.picture} 
+                alt={`${currentUser.firstName || 'User'}'s profile`}
+                style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
+                onError={(e) => {
+                  console.error("Failed to load sidebar profile image:", e);
+                  e.target.onerror = null; 
+                  e.target.style.display = "none";
+                  e.target.parentNode.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+                }}
+              />
+            ) : (
+              <BiUser style={{ color: "white", fontSize: "26px" }} />
+            )}
           </div>
           <div>
-            <div style={styles.profileName}>Guest User</div>
-            <div style={styles.profileEmail}>guest@example.com</div>
+            <div style={styles.profileName}>
+              {isAuthenticated() 
+                ? `${currentUser.firstName || ''} ${currentUser.lastName || ''}`
+                : 'Guest User'
+              }
+            </div>
+            <div style={styles.profileEmail}>
+              {isAuthenticated() ? currentUser.email : 'guest@example.com'}
+            </div>
             <Link 
               to="/page-not-found"
               style={styles.editProfile}
@@ -248,20 +293,40 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
         <div style={styles.divider}></div>
         
         <div style={styles.itemGroup}>
-          <Link 
-            to="/page-not-found" 
-            style={{...styles.item, textDecoration: "none", color: "#e53935"}}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(229, 57, 53, 0.1)";
-              e.currentTarget.style.transform = "translateX(5px)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = "";
-              e.currentTarget.style.transform = "";
-            }}
-          >
-            <BiLogOut style={{...styles.icon, color: "#e53935"}} /> Sign Out
-          </Link>
+          {isAuthenticated() ? (
+            <div 
+              onClick={(e) => {
+                e.preventDefault();
+                handleLogout();
+              }}
+              style={{...styles.item, textDecoration: "none", color: "#e53935", cursor: "pointer"}}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(229, 57, 53, 0.1)";
+                e.currentTarget.style.transform = "translateX(5px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "";
+                e.currentTarget.style.transform = "";
+              }}
+            >
+              <BiLogOut style={{...styles.icon, color: "#e53935"}} /> Sign Out
+            </div>
+          ) : (
+            <Link 
+              to="/login" 
+              style={{...styles.item, textDecoration: "none", color: "var(--primary)"}}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "rgba(111, 68, 255, 0.1)";
+                e.currentTarget.style.transform = "translateX(5px)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "";
+                e.currentTarget.style.transform = "";
+              }}
+            >
+              <BiUser style={{...styles.icon, color: "var(--primary)"}} /> Sign In
+            </Link>
+          )}
         </div>
       </div>
     </>

@@ -16,7 +16,7 @@ import Loader from "../Components/Loader.jsx";
 
 import "../i18n";
 
-function Home() {
+function Home(props) {
   const { t, i18n } = useTranslation();
   const [popularEventsLocation, setPopularEventsLocation] = useState("Sydney");
   const [allAppData, setAllAppData] = useState(null);
@@ -147,26 +147,95 @@ function Home() {
       .filter((event) => event !== null); // Remove any null events
   };
 
-  // Fetch all application data once
+  // Fetch all application data or use server-provided data
   useEffect(() => {
-    const fetchAllData = async () => {
-      setLoading(true);
-      try {
-        // Get all data in a single API call
-        const appData = await getAllAppData();
-
-        // Store the complete data set
-        setAllAppData(appData);
-      } catch (error) {
-        console.error("Error fetching application data:", error);
-        // Could implement fallback or retry logic here
-      } finally {
-        setLoading(false);
+    // Check if we have server-side data
+    const hasServerData = props.serverData && 
+      props.serverData.events && 
+      (props.serverData.events.popular || props.serverData.events.spotlight);
+    
+    if (hasServerData) {
+      // Use server-side data for initial render
+      console.log("Using server-side rendered data for Home page");
+      
+      // Transform server data to match expected format
+      const appData = {
+        locationEvents: {},
+        spotlightEvents: props.serverData.events.spotlight || [],
+        flyerData: props.serverData.flyerData || [],
+        locations: props.serverData.locations || ["Sydney", "Melbourne", "Brisbane", "Singapore"]
+      };
+      
+      // Add location events if available
+      if (props.serverData.events.popular) {
+        // Organize by location
+        props.serverData.events.popular.forEach(event => {
+          const location = event.eventLocation || "Sydney";
+          if (!appData.locationEvents[location]) {
+            appData.locationEvents[location] = [];
+          }
+          appData.locationEvents[location].push(event);
+        });
       }
-    };
-
-    fetchAllData();
-  }, []); // Only fetch once on component mount
+      
+      // Set data and end loading state
+      setAllAppData(appData);
+      setLoading(false);
+    } else {
+      // No server data, fetch from API
+      const fetchAllData = async () => {
+        setLoading(true);
+        try {
+          // Check if localStorage has cached data and it's not too old (1 hour max)
+          let useCached = false;
+          try {
+            const cachedData = localStorage.getItem('appData');
+            const cachedTimestamp = localStorage.getItem('appDataTimestamp');
+            
+            if (cachedData && cachedTimestamp) {
+              const now = new Date().getTime();
+              const then = parseInt(cachedTimestamp, 10);
+              
+              // Use cached data if less than 1 hour old
+              if (now - then < 3600000) {
+                setAllAppData(JSON.parse(cachedData));
+                setLoading(false);
+                useCached = true;
+                console.log("Using cached app data");
+              }
+            }
+          } catch (cacheError) {
+            console.warn("Error using cached data:", cacheError);
+          }
+          
+          if (!useCached) {
+            // Get all data in a single API call, use fallback if API fails
+            const appData = await getAllAppData();
+            
+            // Store the complete data set
+            setAllAppData(appData);
+            
+            // Cache for future use
+            try {
+              localStorage.setItem('appData', JSON.stringify(appData));
+              localStorage.setItem('appDataTimestamp', new Date().getTime().toString());
+            } catch (cacheError) {
+              console.warn("Could not cache app data:", cacheError);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching application data:", error);
+          // Fall back to the fallback data
+          const fallbackData = await getAllAppData(true);
+          setAllAppData(fallbackData);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchAllData();
+    }
+  }, [props.serverData]); // Depend on server data prop
 
   // Handle location change without fetching new data
   const handlePopularLocationChange = useCallback(

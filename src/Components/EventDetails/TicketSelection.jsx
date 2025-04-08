@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TicketTable from './TicketTable';
 import TicketCart from './TicketCart';
 import CountdownTimer from './CountdownTimer';
+import { useAuth } from '../../context/AuthContext';
 
-const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
+const TicketSelection = ({ event, expiryTime, onExpire, showTimer, onProceedToPayment, savedCartItems, savedDiscount = 0 }) => {
+  const navigate = useNavigate();
+  const { isAuthenticated, currentUser } = useAuth();
   // Timer state
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
@@ -55,6 +59,13 @@ const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
     return () => clearInterval(interval);
   }, [expiryTime, onExpire, showTimer]);
   
+  // Log when cart items are restored from saved state
+  useEffect(() => {
+    if (savedCartItems && savedCartItems.length > 0) {
+      console.log("Restored", savedCartItems.length, "tickets from saved state");
+    }
+  }, [savedCartItems]);
+  
   // Sample ticket data - in a real app, this would come from the API
   const [tickets, setTickets] = useState([
     {
@@ -99,9 +110,23 @@ const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
     }
   ]);
 
-  // Cart state
+  // Cart state - initialize from savedCartItems prop if provided
   const [cartItems, setCartItems] = useState([]);
   const [ticketQuantities, setTicketQuantities] = useState({});
+  
+  // Initialize from saved cart items if provided (when returning from payment portal)
+  useEffect(() => {
+    if (savedCartItems && savedCartItems.length > 0) {
+      setCartItems(savedCartItems);
+      
+      // Rebuild ticket quantities from saved cart items
+      const quantities = {};
+      savedCartItems.forEach(item => {
+        quantities[item.ticket.id] = item.quantity;
+      });
+      setTicketQuantities(quantities);
+    }
+  }, [savedCartItems]);
 
   // Add ticket to cart
   const handleAddToCart = (ticket) => {
@@ -157,7 +182,13 @@ const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
   // Handle checkout
   const handleProceedToCheckout = (total, discount) => {
     console.log(`Proceeding to checkout: $${total.toFixed(2)} with ${discount * 100}% discount`);
-    alert('This would navigate to the checkout page in a real application.');
+    
+    // Pass cart items, total, and discount to parent component
+    if (typeof onProceedToPayment === 'function') {
+      onProceedToPayment(cartItems, total, discount);
+    } else {
+      alert('This would navigate to the checkout page in a real application.');
+    }
   };
 
   return (
@@ -216,13 +247,38 @@ const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
       <p
         style={{
           color: 'var(--neutral-600)',
-          marginBottom: '25px',
+          marginBottom: '15px',
           fontSize: '15px',
           maxWidth: '80%',
         }}
       >
         Choose the tickets you want to purchase for {event.title}
       </p>
+      
+      {/* No login prompt here anymore - moved to PaymentPortal */}
+      
+      {/* Show welcome message if user is logged in */}
+      {isAuthenticated() && currentUser && (
+        <div style={{
+          marginBottom: '25px',
+          padding: '10px 15px',
+          backgroundColor: 'rgba(52, 168, 83, 0.05)',
+          border: '1px solid #34A853',
+          borderRadius: '10px',
+          color: '#34A853',
+          maxWidth: '80%',
+          fontSize: '14px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>Welcome back, {currentUser.firstName || currentUser.email}! Your details will be pre-filled during checkout.</span>
+        </div>
+      )}
 
       <div
         style={{
@@ -334,6 +390,7 @@ const TicketSelection = ({ event, expiryTime, onExpire, showTimer }) => {
             cartItems={cartItems}
             onRemoveItem={handleRemoveFromCart}
             onProceedToCheckout={handleProceedToCheckout}
+            initialDiscount={savedDiscount}
           />
         </div>
 

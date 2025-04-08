@@ -1,10 +1,12 @@
 import React from 'react';
 import { ScrollAnimation } from "../../utils/ScrollAnimation.jsx";
+import { useAnimation } from "../../context/AnimationContext";
 import { BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineLocationMarker, HiOutlineExternalLink } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 
 const EventMainInfo = ({ event, handleGetTickets }) => {
+  const { animationsEnabled, sidebarOpen } = useAnimation();
   return (
     <div
       style={{
@@ -20,6 +22,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
         distance={30}
         duration={0.9}
         delay={0.1}
+        disabled={!animationsEnabled || sidebarOpen}
       >
         <div
           style={{
@@ -49,6 +52,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
         distance={30}
         duration={0.9}
         delay={0.2}
+        disabled={!animationsEnabled || sidebarOpen}
       >
         <div
           style={{

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { BiDetail, BiStar, BiMap, BiInfoCircle } from "react-icons/bi";
 import { ScrollAnimation } from "../../utils/ScrollAnimation.jsx";
+import { useAnimation } from "../../context/AnimationContext";
 import TabDetails from './TabDetails';
 import TabVenue from './TabVenue';
 import TabHighlights from './TabHighlights';
@@ -10,6 +11,7 @@ const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTicke
   const [activeTab, setActiveTab] = useState("details");
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
+  const { animationsEnabled, sidebarOpen } = useAnimation();
 
   return (
     <ScrollAnimation
@@ -17,6 +19,7 @@ const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTicke
       distance={20}
       duration={0.8}
       delay={0.3}
+      disabled={!animationsEnabled || sidebarOpen}
     >
       <div
         style={{

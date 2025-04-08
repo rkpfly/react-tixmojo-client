@@ -1,10 +1,36 @@
 /**
  * TixMojo API service for handling all API calls
+ * Enhanced with fallback support for server-side rendering
  */
 
-// API base URL - use environment variable in production
-const API_BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+import { fallbackAppData, fallbackEvents, fallbackOrganizers } from '../data/fallbackData';
+
+/**
+ * Get the base API URL based on environment
+ * - For client-side code during development, use the proxy config from Vite
+ * - For production or server-side, use the full URL
+ */
+export const getBaseApiUrl = () => {
+  // Check if we're running in the browser
+  const isBrowser = typeof window !== 'undefined';
+  
+  // Use environment variable if defined
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  
+  // During development in the browser, use relative URL for proxy to work
+  if (isBrowser && import.meta.env.DEV) {
+    console.log("Using development proxy URL: /api");
+    return '/api';
+  }
+  
+  // For server-side code or in production, use the full URL
+  return 'http://localhost:5000/api';
+};
+
+// Get the base API URL
+const API_BASE_URL = getBaseApiUrl();
 
 /**
  * Generic fetch handler with error handling
@@ -133,10 +159,43 @@ export const getFlyers = async () => {
 /**
  * Get event by ID
  * @param {string} id - Event ID
+ * @param {boolean} [useFallback=false] - Whether to immediately use fallback data
  * @returns {Promise<Object>} - Event data
  */
-export const getEventById = async (id) => {
-  return fetchAPI(`/events/${id}`);
+export const getEventById = async (id, useFallback = false) => {
+  // For SSR or when fallback is requested, return immediately with fallback data
+  if (useFallback || (typeof window === 'undefined')) {
+    console.log("Using fallback data for event:", id);
+    const event = fallbackEvents.find(e => e.id === id);
+    
+    // Add organizer info
+    if (event && event.organizerId && fallbackOrganizers[event.organizerId]) {
+      event.organizer = fallbackOrganizers[event.organizerId];
+    }
+    
+    return event || null;
+  }
+
+  try {
+    // Try fetching from API first
+    return await fetchAPI(`/events/${id}`);
+  } catch (error) {
+    console.error(`API error for event ${id}, using fallback:`, error);
+    
+    // On failure, return fallback data
+    const event = fallbackEvents.find(e => e.id === id);
+    
+    // Add organizer info
+    if (event && event.organizerId && fallbackOrganizers[event.organizerId]) {
+      event.organizer = fallbackOrganizers[event.organizerId];
+    }
+    
+    if (!event) {
+      throw new Error(`Event with ID ${id} not found`);
+    }
+    
+    return event;
+  }
 };
 
 /**
@@ -160,10 +219,25 @@ export const getLocationDetails = async (location) => {
 
 /**
  * Get all application data in a single request
+ * @param {boolean} [useFallback=false] - Whether to immediately use fallback data
  * @returns {Promise<Object>} - All app data including events, locations, and metadata
  */
-export const getAllAppData = async () => {
-  return fetchAPI("/events/app-data");
+export const getAllAppData = async (useFallback = false) => {
+  // For SSR or when fallback is requested, return immediately with fallback data
+  if (useFallback || (typeof window === 'undefined')) {
+    console.log("Using fallback data for app");
+    return fallbackAppData;
+  }
+
+  try {
+    // Try fetching from API first
+    const data = await fetchAPI("/events/app-data");
+    return data;
+  } catch (error) {
+    console.error("API error, using fallback data:", error);
+    // On failure, return fallback data
+    return fallbackAppData;
+  }
 };
 
 // Export all API functions

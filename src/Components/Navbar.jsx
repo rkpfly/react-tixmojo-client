@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 import "../i18n";
 import Hamburger from "./Hamburger";
+import LoginButton from "./Auth/LoginButton";
+import { useAuth } from "../context/AuthContext";
 
 function Navbar({
   toggleScrollPage,
@@ -14,10 +16,23 @@ function Navbar({
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { currentUser, isAuthenticated } = useAuth();
   const inputRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [scrolled, setScrolled] = useState(false);
   const [searchFocused, setSearchFocused] = useState(false);
+  
+  // Debug user profile data
+  useEffect(() => {
+    if (isAuthenticated() && currentUser) {
+      console.log("Navbar user profile data:", {
+        hasProfilePicture: Boolean(currentUser.profilePicture),
+        hasPicture: Boolean(currentUser.picture),
+        profilePictureUrl: currentUser.profilePicture || currentUser.picture || 'None',
+        name: `${currentUser.firstName || ''} ${currentUser.lastName || ''}`
+      });
+    }
+  }, [currentUser, isAuthenticated]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -54,7 +69,9 @@ function Navbar({
     }
   };
 
-  const handleUserClick = () => {
+  const handleUserClick = (e) => {
+    if (e) e.preventDefault();
+    
     if (toggleUserSidebar) {
       toggleUserSidebar();
     } else {
@@ -131,8 +148,8 @@ function Navbar({
                 ? "180px"
                 : "40px"
               : searchFocused
-              ? "320px"
-              : "240px",
+                ? "320px"
+                : "240px",
             transition: "all 0.3s cubic-bezier(0.19, 1, 0.22, 1)",
             cursor: "pointer",
             boxShadow: searchFocused
@@ -195,32 +212,84 @@ function Navbar({
           )}
         </div>
 
-        {/* User icon - hide on mobile when search is focused */}
+        {/* Login button or user profile */}
         {!(isMobile && searchFocused) && (
-          <div
-            onClick={handleUserClick}
-            style={{
-              width: "38px",
-              height: "38px",
-              borderRadius: "50%",
-              backgroundColor: "var(--purple-100)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              transition: "all 0.3s ease",
-              opacity: searchFocused && !isMobile ? "0.7" : "1",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--purple-200)";
-              e.currentTarget.style.transform = "scale(1.05)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = "var(--purple-100)";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >
-            <BiUser style={{ color: "var(--primary)", fontSize: "22px" }} />
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            opacity: searchFocused && !isMobile ? "0.7" : "1",
+            transition: "opacity 0.3s ease",
+          }}>
+            {isAuthenticated() ? (
+              <div
+                onClick={(e) => handleUserClick(e)}
+                style={{
+                  width: "38px",
+                  height: "38px",
+                  borderRadius: "50%",
+                  backgroundColor: "var(--purple-100)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  position: "relative",
+                  overflow: "hidden",
+                  boxShadow: "0 2px 6px rgba(111, 68, 255, 0.15)",
+                  border: currentUser?.profilePicture ? "2px solid var(--purple-200)" : "none",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow = "0 3px 8px rgba(111, 68, 255, 0.3)";
+                  // Log auth status on hover for debugging
+                  console.log("Auth Status (Navbar):", {
+                    isAuthenticated: isAuthenticated(),
+                    currentUser
+                  });
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow = "0 2px 6px rgba(111, 68, 255, 0.15)";
+                }}
+              >
+                {/* Active indicator dot */}
+                <div
+                  style={{
+                    position: "absolute",
+                    bottom: "2px",
+                    right: "2px",
+                    width: "10px",
+                    height: "10px",
+                    backgroundColor: "#44cc77",
+                    borderRadius: "50%",
+                    border: "2px solid white",
+                    zIndex: 2,
+                  }}
+                />
+                {currentUser?.profilePicture || currentUser?.picture ? (
+                  <img
+                    src={currentUser.profilePicture || currentUser.picture}
+                    alt={`${currentUser.firstName || 'User'}'s profile`}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: "50%", /* Ensure image is round */
+                    }}
+                    onError={(e) => {
+                      console.error("Failed to load profile image:", e);
+                      e.target.onerror = null; 
+                      e.target.style.display = "none";
+                      e.target.parentNode.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--primary);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>';
+                    }}
+                  />
+                ) : (
+                  <BiUser style={{ color: "var(--primary)", fontSize: "22px" }} />
+                )}
+              </div>
+            ) : (
+              <LoginButton />
+            )}
           </div>
         )}
 

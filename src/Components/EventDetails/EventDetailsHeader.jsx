@@ -1,9 +1,16 @@
 import React from 'react';
 import { ScrollAnimation } from "../../utils/ScrollAnimation.jsx";
+import { useAnimation } from "../../context/AnimationContext";
 
 const EventDetailsHeader = ({ event }) => {
+  const { animationsEnabled, sidebarOpen } = useAnimation();
+  
   return (
-    <ScrollAnimation direction="down" distance={30} duration={0.8}>
+    <ScrollAnimation 
+      direction="down" 
+      distance={30} 
+      duration={0.8}
+      disabled={!animationsEnabled || sidebarOpen}>
       <div style={{ marginBottom: "10px" }}>
         <h1
           style={{

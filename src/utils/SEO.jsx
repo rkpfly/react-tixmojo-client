@@ -2,31 +2,70 @@ import { Helmet } from 'react-helmet-async';
 
 /**
  * Default SEO component for base site metadata
+ * Enhanced with server-side rendering support
  */
-export const DefaultSEO = () => {
+export const DefaultSEO = ({ serverData }) => {
+  // If we have server data, use it for enhanced SEO
+  const useServerData = serverData && Object.keys(serverData).length > 0;
+  
+  // Extract title and description from server data if available
+  const title = useServerData && serverData.title 
+    ? serverData.title 
+    : 'TixMojo - Find and Book the Best Events';
+    
+  const description = useServerData && serverData.description
+    ? serverData.description
+    : 'Discover and book tickets for the best concerts, festivals, shows, and events near you. TixMojo helps you find amazing experiences.';
+    
+  const canonicalUrl = useServerData && serverData.canonicalUrl
+    ? serverData.canonicalUrl
+    : 'https://tixmojo.com/';
+  
+  // Include other meta tags from server
+  const metaTags = [];
+  if (useServerData) {
+    // If server indicates this should not be indexed
+    if (serverData.noIndex) {
+      metaTags.push(
+        <meta key="robots" name="robots" content="noindex,nofollow" />
+      );
+    }
+    
+    // Add structured data if available from server
+    if (serverData.structuredData) {
+      metaTags.push(
+        <script 
+          key="structured-data" 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(serverData.structuredData) }}
+        />
+      );
+    }
+  }
+  
   return (
     <Helmet>
       {/* Primary Meta Tags */}
-      <title>TixMojo - Find and Book the Best Events</title>
-      <meta name="title" content="TixMojo - Find and Book the Best Events" />
-      <meta name="description" content="Discover and book tickets for the best concerts, festivals, shows, and events near you. TixMojo helps you find amazing experiences." />
+      <title>{title}</title>
+      <meta name="title" content={title} />
+      <meta name="description" content={description} />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://tixmojo.com/" />
-      <meta property="og:title" content="TixMojo - Find and Book the Best Events" />
-      <meta property="og:description" content="Discover and book tickets for the best concerts, festivals, shows, and events near you. TixMojo helps you find amazing experiences." />
+      <meta property="og:url" content={canonicalUrl} />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
       <meta property="og:image" content="/og-image.jpg" />
       
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content="https://tixmojo.com/" />
-      <meta property="twitter:title" content="TixMojo - Find and Book the Best Events" />
-      <meta property="twitter:description" content="Discover and book tickets for the best concerts, festivals, shows, and events near you. TixMojo helps you find amazing experiences." />
+      <meta property="twitter:url" content={canonicalUrl} />
+      <meta property="twitter:title" content={title} />
+      <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content="/og-image.jpg" />
       
       {/* Canonical URL */}
-      <link rel="canonical" href="https://tixmojo.com/" />
+      <link rel="canonical" href={canonicalUrl} />
       
       {/* Additional meta tags */}
       <meta name="keywords" content="tickets, events, concerts, festivals, shows, entertainment, booking" />
@@ -47,6 +86,14 @@ export const DefaultSEO = () => {
       <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+      
+      {/* Server-provided meta tags */}
+      {metaTags}
+      
+      {/* Flag to indicate this was SSR hydrated */}
+      {useServerData && (
+        <meta name="x-ssr-hydrated" content="true" />
+      )}
     </Helmet>
   );
 };
