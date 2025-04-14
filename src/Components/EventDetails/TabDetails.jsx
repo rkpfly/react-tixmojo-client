@@ -3,7 +3,7 @@ import { BiDetail, BiMusic } from "react-icons/bi";
 import { BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
-const TabDetails = ({ event, activeTab, isDescriptionExpanded, setIsDescriptionExpanded }) => {
+const TabDetails = ({ event, activeTab, isDescriptionExpanded, setIsDescriptionExpanded, windowWidth }) => {
   return (
     <div 
       style={{ 
@@ -13,118 +13,42 @@ const TabDetails = ({ event, activeTab, isDescriptionExpanded, setIsDescriptionE
         zIndex: 1,
       }}
     >
-      <h3
-        style={{
-          fontSize: "22px",
-          fontWeight: "700",
-          color: "var(--primary)",
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <BiDetail size={24} /> About This Event
+      <h3 className="tab-heading">
+        <BiDetail className="tab-heading-icon" /> About This Event
       </h3>
       
       {/* Event Summary */}
-      <div
-        style={{
-          backgroundColor: "var(--purple-50)",
-          borderRadius: "12px",
-          padding: "20px",
-          marginBottom: "25px",
-          border: "1px solid var(--purple-100)",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "8px",
-            marginBottom: "15px",
-          }}
-        >
+      <div className="event-summary">
+        <div className="event-tags">
           {event.tags.map((tag, index) => (
-            <span
-              key={index}
-              style={{
-                backgroundColor: "white",
-                color: "var(--primary)",
-                padding: "4px 12px",
-                borderRadius: "20px",
-                fontSize: "13px",
-                fontWeight: "600",
-                boxShadow: "0 2px 6px rgba(111, 68, 255, 0.1)",
-                border: "1px solid var(--purple-200)",
-              }}
-            >
+            <span key={index} className="event-tag">
               {tag}
             </span>
           ))}
         </div>
         
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "15px",
-            flexWrap: "wrap",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+        <div className="event-meta">
+          <div className="event-meta-item">
             <BsCalendar2Date color="var(--primary)" size={18} />
-            <span style={{ fontWeight: "500", fontSize: "15px" }}>
+            <span className="event-meta-text">
               {event.date}
             </span>
           </div>
           
-          <div
-            style={{
-              width: "4px",
-              height: "4px",
-              borderRadius: "50%",
-              backgroundColor: "var(--neutral-400)",
-            }}
-          />
+          <div className="event-meta-divider" />
           
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+          <div className="event-meta-item">
             <HiOutlineLocationMarker color="var(--primary)" size={18} />
-            <span style={{ fontWeight: "500", fontSize: "15px" }}>
+            <span className="event-meta-text">
               {event.venueName}
             </span>
           </div>
           
-          <div
-            style={{
-              width: "4px",
-              height: "4px",
-              borderRadius: "50%",
-              backgroundColor: "var(--neutral-400)",
-            }}
-          />
+          <div className="event-meta-divider" />
           
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-            }}
-          >
+          <div className="event-meta-item">
             <BiMusic color="var(--primary)" size={18} />
-            <span style={{ fontWeight: "500", fontSize: "15px" }}>
+            <span className="event-meta-text">
               Organized by {event.organizer.name}
             </span>
           </div>
@@ -134,60 +58,22 @@ const TabDetails = ({ event, activeTab, isDescriptionExpanded, setIsDescriptionE
       <div
         className="event-description"
         style={{
-          position: "relative",
-          color: "var(--neutral-800)",
-          fontSize: "16px",
-          lineHeight: 1.8,
-          fontWeight: "400",
-          maxHeight: isDescriptionExpanded ? "none" : "300px",
+          maxHeight: isDescriptionExpanded ? "none" : (windowWidth < 768 ? "200px" : "300px"),
           overflow: isDescriptionExpanded ? "visible" : "hidden",
-          transition: "all 0.5s ease",
         }}
       >
         <div dangerouslySetInnerHTML={{ __html: event.description }} />
         
         {/* Gradient fade for unexpanded content */}
         {!isDescriptionExpanded && (
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: "80px",
-              background: "linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1))",
-              pointerEvents: "none",
-            }}
-          />
+          <div className="event-description-gradient" />
         )}
       </div>
       
       {/* Expand/Collapse button */}
       <button
         onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "var(--purple-100)",
-          color: "var(--primary)",
-          border: "none",
-          borderRadius: "30px",
-          padding: "8px 20px",
-          fontSize: "14px",
-          fontWeight: "600",
-          margin: "20px auto 0",
-          cursor: "pointer",
-          transition: "all 0.2s ease",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.backgroundColor = "var(--purple-200)";
-          e.currentTarget.style.transform = "translateY(-2px)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.backgroundColor = "var(--purple-100)";
-          e.currentTarget.style.transform = "translateY(0)";
-        }}
+        className="read-more-button"
       >
         {isDescriptionExpanded ? "Show Less" : "Read More"}
       </button>

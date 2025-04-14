@@ -1,0 +1,543 @@
+/* Ticket Selection Component Styles */
+
+/* Main Container */
+.ticket-selection-container {
+  border-radius: 24px;
+  padding: clamp(20px, 3vw, 30px);
+  background-color: var(--purple-50);
+  margin: clamp(30px, 5vw, 50px) clamp(12px, 3vw, 0px);
+  box-shadow: 0 10px 30px rgba(111, 68, 255, 0.1);
+  border: 1px solid var(--purple-100);
+  position: relative;
+  width: calc(100% - 24px);
+}
+
+/* Header Styles */
+.ticket-selection-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.ticket-selection-title-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ticket-selection-icon {
+  color: var(--primary);
+}
+
+.ticket-selection-title {
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  color: var(--neutral-800);
+  font-family: var(--font-heading);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.ticket-selection-description {
+  color: var(--neutral-600);
+  margin-bottom: 15px;
+  font-size: clamp(14px, 1vw, 15px);
+  max-width: 80%;
+}
+
+/* Welcome Message for Logged-in Users */
+.welcome-message {
+  margin-bottom: 25px;
+  padding: 10px 15px;
+  background-color: rgba(52, 168, 83, 0.05);
+  border: 1px solid #34A853;
+  border-radius: 10px;
+  color: #34A853;
+  max-width: 80%;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Layout Container */
+.ticket-selection-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 30px;
+  position: relative;
+}
+
+/* Ticket Table Styles */
+.ticket-table-container {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+  background: white;
+  border: 1px solid var(--purple-100);
+  width: 60%;
+}
+
+/* Ticket Type Styles */
+.ticket-type-row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--purple-100);
+}
+
+.ticket-info {
+  flex: 0.9;
+}
+
+.ticket-name {
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.ticket-description {
+  font-size: clamp(10px, 1vw, 13px);
+  color: var(--neutral-600);
+  margin-top: 3px;
+}
+
+.ticket-price {
+  flex: 0.1;
+  text-align: center;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 600;
+  color: var(--neutral-800);
+}
+
+.ticket-action {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.quantity-button {
+  width: clamp(22px, 2vw, 24px);
+  height: clamp(22px, 2vw, 24px);
+  border-radius: 50%;
+  background-color: var(--purple-100);
+  border: none;
+  color: var(--primary);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: clamp(16px, 1.5vw, 18px);
+  transition: all 0.2s ease;
+}
+
+.quantity-button:hover {
+  background-color: var(--purple-200);
+}
+
+.quantity-value {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.add-to-cart-button {
+  background-color: white;
+  color: var(--primary);
+  border: 1px solid var(--purple-200);
+  border-radius: 20px;
+  padding: 5px 15px;
+  font-size: clamp(12px, 1vw, 13px);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.add-to-cart-button:hover {
+  background-color: var(--purple-50);
+  transform: translateY(-2px);
+}
+
+@media (max-width: 480px) {
+  .ticket-action {
+    flex: 0.8;
+  }
+  
+  .add-to-cart-button {
+    padding: 4px 10px;
+  }
+  
+  .quantity-button {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.ticket-table-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 20px;
+  border-bottom: 2px solid var(--purple-100);
+  background-color: var(--purple-50);
+}
+
+.ticket-type-header, 
+.ticket-price-header, 
+.ticket-action-header {
+  font-weight: 700;
+  color: #ff5757;
+  font-size: clamp(12px, 1vw, 14px);
+}
+
+.ticket-type-header {
+  flex: 1;
+}
+
+.ticket-price-header {
+  flex: 1;
+  text-align: center;
+}
+
+.ticket-action-header {
+  flex: 1;
+  text-align: right;
+}
+
+.ticket-table-body {
+  max-height: 400px;
+  overflow-y: auto;
+  padding: 0 20px;
+}
+
+/* Cart Container */
+.ticket-cart-container {
+  position: relative;
+  width: 35%;
+}
+
+/* Cart Visibility Toggle for Mobile */
+.cart-toggle-button {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  box-shadow: 0 4px 15px rgba(111, 68, 255, 0.3);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-toggle-button:hover {
+  transform: scale(1.05);
+  background-color: var(--purple-700);
+}
+
+.cart-item-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #ff5757;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  border: 2px solid white;
+}
+
+/* Timer Styles */
+.timer-banner {
+  position: relative;
+  width: 100%;
+  z-index: 5;
+  background: linear-gradient(135deg, var(--purple-100), var(--purple-200));
+  border-radius: 10px 10px 0 0;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+/* Mobile timer banner has different styling */
+.mobile-timer-banner {
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(135deg, var(--purple-100), var(--purple-200));
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 3px 15px rgba(111, 68, 255, 0.15);
+}
+
+.timer-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-label-text {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--purple-800);
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-heading);
+}
+
+.timer-digit {
+  background: var(--purple-600);
+  color: white;
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 18px;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.timer-colon {
+  color: var(--purple-900);
+  font-weight: 700;
+  font-size: 18px;
+}
+
+/* Mobile Styles - Cart Popup */
+.mobile-cart-overlay {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease;
+  cursor: pointer; /* Makes it clear the overlay is clickable */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mobile-cart-overlay.visible {
+  opacity: 1;
+}
+
+.mobile-cart-popup {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0px -4px 20px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.3s ease-out forwards;
+  max-height: 80vh;
+  overflow-y: auto;
+  z-index: 1001;
+  transform: translateY(100%); /* Start from below */
+}
+
+.mobile-timer-container {
+  position: sticky;
+  top: 10px;
+  z-index: 50;
+  margin-bottom: 15px;
+  display: none;
+  width: 100%;
+}
+
+.cart-overlay-close-button {
+  position: absolute;
+  right: -10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  color: var(--neutral-700);
+  cursor: pointer;
+  z-index: 1010;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.cart-overlay-close-button:hover {
+  background-color: var(--purple-50);
+}
+
+/* Animation Keyframes */
+@keyframes pulse {
+  0% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.9; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { transform: translateY(0); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .ticket-selection-container {
+    padding: 20px 15px;
+    margin: 20px 12px;
+    border-radius: 16px;
+    position: relative;
+  }
+  
+  .ticket-selection-description {
+    max-width: 100%;
+  }
+  
+  .welcome-message {
+    max-width: 100%;
+    font-size: 13px;
+  }
+  
+  .ticket-selection-layout {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .ticket-table-container {
+    width: 100%;
+    border-radius: 0 0 16px 16px;
+  }
+  
+  .ticket-cart-container {
+    display: none;
+    width: 100%;
+  }
+  
+  .cart-toggle-button {
+    display: flex;
+  }
+  
+  .mobile-timer-container {
+    display: block;
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    margin-bottom: 15px;
+    background-color: var(--purple-50);
+    padding: 5px 0;
+    border-bottom: 1px solid var(--purple-100);
+  }
+  
+  /* Mobile cart is always displayed as flex, visibility is controlled by opacity */
+  
+  .mobile-cart-popup {
+    padding: 15px;
+  }
+  
+  .cart-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--purple-100);
+  }
+  
+  .cart-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--neutral-800);
+    margin: 0;
+  }
+  
+  .timer-label-text {
+    font-size: 14px;
+  }
+  
+  .timer-digit {
+    font-size: 16px;
+    padding: 4px 6px;
+    min-width: 28px;
+  }
+  
+  .timer-colon {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ticket-selection-container {
+    margin: 15px 8px;
+    width: calc(100% - 16px);
+    padding: 5px;
+  }
+  
+  .ticket-selection-title {
+    font-size: 20px;
+  }
+  
+  .ticket-table-header {
+    padding: 12px 15px;
+  }
+  
+  .ticket-type-header, 
+  .ticket-price-header, 
+  .ticket-action-header {
+    font-size: 12px;
+  }
+  
+  .ticket-table-body {
+    padding: 0 15px;
+  }
+  
+  .mobile-timer-container {
+    top: 10px;
+    right: 10px;
+    transform: scale(0.7);
+  }
+}

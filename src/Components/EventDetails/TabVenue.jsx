@@ -3,7 +3,7 @@ import { BiMap } from "react-icons/bi";
 import { BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineLocationMarker, HiOutlineExternalLink } from "react-icons/hi";
 
-const TabVenue = ({ event, activeTab }) => {
+const TabVenue = ({ event, activeTab, windowWidth }) => {
   return (
     <div 
       style={{ 
@@ -13,144 +13,41 @@ const TabVenue = ({ event, activeTab }) => {
         zIndex: 1,
       }}
     >
-      <h3
-        style={{
-          fontSize: "22px",
-          fontWeight: "700",
-          color: "var(--primary)",
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <BiMap size={24} /> Venue Information
+      <h3 className="tab-heading">
+        <BiMap className="tab-heading-icon" /> Venue Information
       </h3>
       
-      <div
-        style={{
-          display: "flex",
-          flexDirection: window.innerWidth < 768 ? "column" : "row",
-          gap: "30px",
-          marginBottom: "20px",
-        }}
-      >
+      <div className="venue-container">
         {/* Venue Details */}
-        <div
-          style={{
-            flex: "1",
-            backgroundColor: "var(--purple-50)",
-            borderRadius: "16px",
-            padding: "24px",
-            boxShadow: "0 5px 15px rgba(111, 68, 255, 0.08)",
-            border: "1px solid var(--purple-100)",
-          }}
-        >
-          <h4
-            style={{
-              fontSize: "24px",
-              fontWeight: "700",
-              color: "var(--dark)",
-              marginBottom: "15px",
-              fontFamily: "var(--font-heading)",
-            }}
-          >
+        <div className="venue-details">
+          <h4 className="venue-name">
             {event.venueName}
           </h4>
           
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: "10px",
-              marginBottom: "20px",
-            }}
-          >
-            <HiOutlineLocationMarker 
-              size={22} 
-              style={{ 
-                color: "var(--primary)",
-                marginTop: "3px",
-              }} 
-            />
-            <p
-              style={{
-                color: "var(--neutral-700)",
-                fontSize: "16px",
-                lineHeight: 1.6,
-                margin: 0,
-              }}
-            >
+          <div className="venue-address">
+            <HiOutlineLocationMarker className="venue-address-icon" />
+            <p className="venue-address-text">
               {event.venueAddress}
             </p>
           </div>
           
-          <div
-            style={{
-              display: "flex",
-              alignItems: "flex-start",
-              gap: "10px",
-              marginBottom: "25px",
-            }}
-          >
-            <BsCalendar2Date 
-              size={20} 
-              style={{ 
-                color: "var(--primary)",
-                marginTop: "3px",
-              }} 
-            />
+          <div className="venue-date">
+            <BsCalendar2Date className="venue-date-icon" />
             <div>
-              <p
-                style={{
-                  color: "var(--neutral-700)",
-                  fontSize: "16px",
-                  margin: "0 0 5px 0",
-                  fontWeight: "600",
-                }}
-              >
+              <p className="venue-date-text">
                 {event.date}
               </p>
-              <p
-                style={{
-                  color: "var(--neutral-600)",
-                  fontSize: "14px",
-                  margin: 0,
-                }}
-              >
+              <p className="venue-time-text">
                 {event.time}
               </p>
             </div>
           </div>
           
-          <div 
-            style={{
-              marginBottom: "25px",
-              padding: "15px",
-              backgroundColor: "white",
-              borderRadius: "12px",
-              border: "1px dashed var(--purple-200)",
-            }}
-          >
-            <p
-              style={{
-                margin: "0 0 8px 0",
-                fontWeight: "600",
-                fontSize: "14px",
-                color: "var(--primary)",
-              }}
-            >
+          <div className="venue-facilities">
+            <p className="venue-facilities-title">
               Venue Facilities
             </p>
-            <ul
-              style={{
-                margin: 0,
-                padding: "0 0 0 20px",
-                color: "var(--neutral-700)",
-                fontSize: "14px",
-                lineHeight: 1.6,
-              }}
-            >
+            <ul className="venue-facilities-list">
               <li>Wheelchair accessible</li>
               <li>Air-conditioned</li>
               <li>Restrooms</li>
@@ -162,27 +59,7 @@ const TabVenue = ({ event, activeTab }) => {
             href={event.locationMap}
             target="_blank"
             rel="noopener noreferrer"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "var(--primary)",
-              fontWeight: "600",
-              textDecoration: "none",
-              padding: "12px 20px",
-              borderRadius: "8px",
-              backgroundColor: "white",
-              boxShadow: "0 4px 12px rgba(111, 68, 255, 0.12)",
-              transition: "all 0.2s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-3px)";
-              e.currentTarget.style.boxShadow = "0 6px 15px rgba(111, 68, 255, 0.2)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "0 4px 12px rgba(111, 68, 255, 0.12)";
-            }}
+            className="venue-map-link"
           >
             <HiOutlineLocationMarker size={18} />
             Open in Google Maps
@@ -190,58 +67,20 @@ const TabVenue = ({ event, activeTab }) => {
         </div>
         
         {/* Interactive Map Preview */}
-        <div
-          style={{
-            flex: "1.5",
-            borderRadius: "16px",
-            overflow: "hidden",
-            height: "350px",
-            position: "relative",
-          }}
-        >
-          <div
+        <div className="map-preview">
+          <div 
+            className="map-preview-background"
             style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(event.venueAddress)}&zoom=15&size=600x400&markers=color:purple%7C${encodeURIComponent(event.venueAddress)}&key=YOUR_API_KEY)`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              filter: "saturate(1.1)",
-              boxShadow: "inset 0 0 10px rgba(0, 0, 0, 0.1)",
+              backgroundImage: `url(https://maps.googleapis.com/maps/api/staticmap?center=${encodeURIComponent(event.venueAddress)}&zoom=15&size=600x400&markers=color:purple%7C${encodeURIComponent(event.venueAddress)}&key=YOUR_API_KEY)`
             }}
           />
           
           {/* Map Overlay with Info */}
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: "20px",
-              background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)",
-              color: "white",
-            }}
-          >
-            <h5 
-              style={{
-                margin: "0 0 5px 0",
-                fontSize: "18px",
-                fontWeight: "700",
-              }}
-            >
+          <div className="map-overlay">
+            <h5 className="map-venue-name">
               {event.venueName}
             </h5>
-            <p
-              style={{
-                margin: "0 0 10px 0",
-                fontSize: "14px",
-                opacity: 0.9,
-              }}
-            >
+            <p className="map-venue-address">
               {event.venueAddress}
             </p>
             
@@ -249,26 +88,7 @@ const TabVenue = ({ event, activeTab }) => {
               href={event.locationMap}
               target="_blank"
               rel="noopener noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "8px",
-                color: "white",
-                backgroundColor: "var(--primary)",
-                fontWeight: "600",
-                textDecoration: "none",
-                padding: "8px 15px",
-                borderRadius: "8px",
-                fontSize: "14px",
-                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                transition: "all 0.2s ease",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--purple-700)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "var(--primary)";
-              }}
+              className="map-button"
             >
               <HiOutlineExternalLink size={16} />
               View in Google Maps
@@ -276,46 +96,13 @@ const TabVenue = ({ event, activeTab }) => {
           </div>
           
           {/* Location Pin */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "20px",
-              height: "20px",
-              backgroundColor: "var(--primary)",
-              borderRadius: "50%",
-              border: "3px solid white",
-              boxShadow: "0 0 0 2px var(--primary)",
-              animation: "pulseAnimation 2s infinite",
-            }}
-          />
+          <div className="location-pin" />
         </div>
       </div>
       
       {/* Nearby Information */}
-      <div
-        style={{
-          backgroundColor: "white",
-          borderRadius: "16px",
-          padding: "25px",
-          marginTop: "30px",
-          boxShadow: "0 5px 15px rgba(111, 68, 255, 0.08)",
-          border: "1px solid var(--purple-100)",
-        }}
-      >
-        <h4
-          style={{
-            fontSize: "18px",
-            fontWeight: "700",
-            color: "var(--dark)",
-            marginBottom: "15px",
-            display: "flex",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
+      <div className="venue-info">
+        <h4 className="info-heading">
           <svg 
             width="22" 
             height="22" 
@@ -334,33 +121,12 @@ const TabVenue = ({ event, activeTab }) => {
           Useful Information
         </h4>
         
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: window.innerWidth < 768 ? "1fr" : "1fr 1fr",
-            gap: "20px",
-          }}
-        >
+        <div className="info-grid" style={{ gridTemplateColumns: windowWidth < 768 ? "1fr" : "1fr 1fr" }}>
           <div>
-            <h5
-              style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                color: "var(--primary)",
-                margin: "0 0 10px 0",
-              }}
-            >
+            <h5 className="info-section-title">
               Getting There
             </h5>
-            <ul
-              style={{
-                margin: 0,
-                padding: "0 0 0 20px",
-                color: "var(--neutral-700)",
-                fontSize: "14px",
-                lineHeight: 1.6,
-              }}
-            >
+            <ul className="info-list">
               <li>Public transit available nearby</li>
               <li>Limited parking available on site</li>
               <li>Taxi drop-off point at main entrance</li>
@@ -368,25 +134,10 @@ const TabVenue = ({ event, activeTab }) => {
           </div>
           
           <div>
-            <h5
-              style={{
-                fontSize: "16px",
-                fontWeight: "600",
-                color: "var(--primary)",
-                margin: "0 0 10px 0",
-              }}
-            >
+            <h5 className="info-section-title">
               Nearby Amenities
             </h5>
-            <ul
-              style={{
-                margin: 0,
-                padding: "0 0 0 20px",
-                color: "var(--neutral-700)",
-                fontSize: "14px",
-                lineHeight: 1.6,
-              }}
-            >
+            <ul className="info-list">
               <li>Restaurants within walking distance</li>
               <li>Convenience stores</li>
               <li>ATM machines</li>

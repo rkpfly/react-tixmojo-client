@@ -138,6 +138,7 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -152,6 +153,7 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -166,6 +168,7 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -183,8 +186,9 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
         {/* Help & Support */}
         <div style={styles.itemGroup}>
           <Link 
-            to="/page-not-found" 
+            to="/about-us" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -199,6 +203,7 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -213,6 +218,7 @@ export function SidebarScroll({ toggleScrollPage, isSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleScrollPage()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}

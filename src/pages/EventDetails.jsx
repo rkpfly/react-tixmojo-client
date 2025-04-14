@@ -28,6 +28,7 @@ function EventDetails(props) {
   const { animationsEnabled, sidebarOpen } = useAnimation();  // Get animation context
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [showContactPopup, setShowContactPopup] = useState(false);
   const [showTicketSelection, setShowTicketSelection] = useState(false);
   const [animationsInitialized, setAnimationsInitialized] = useState(false);
@@ -190,9 +191,10 @@ function EventDetails(props) {
       console.warn("Error using cached event data:", cacheError);
     }
     
-    // Fetch event details from API (client-side fallback)
+    // Fetch event details from API
     const fetchEvent = async () => {
       setLoading(true);
+      setError(null);
       try {
         const eventData = await getEventById(eventId);
 
@@ -313,8 +315,7 @@ function EventDetails(props) {
       } catch (error) {
         console.error("Error fetching event:", error);
         setLoading(false);
-        // Redirect to 404 if event not found
-        navigate("/page-not-found");
+        setError(`We couldn't find the event you're looking for. The event may no longer exist or there might be a temporary issue with our server.`);
       }
     };
 
@@ -458,6 +459,86 @@ function EventDetails(props) {
     return null;
   }
 
+  // Error State
+  if (error) {
+    return (
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        padding: "20px",
+        paddingTop: "90px",
+        textAlign: "center",
+      }}>
+        <div style={{
+          fontSize: "1.2rem",
+          color: "#e53935",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          maxWidth: "600px",
+          padding: "2rem",
+          borderRadius: "8px",
+          background: "#ffebee",
+          border: "1px solid #ffcdd2"
+        }}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#e53935">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 style={{ marginTop: "1rem", color: "#d32f2f" }}>Event Not Found</h2>
+          <p style={{ marginTop: "0.5rem" }}>{error}</p>
+          <div style={{ display: "flex", gap: "16px", marginTop: "1.5rem" }}>
+            <button 
+              onClick={() => navigate("/")}
+              style={{
+                background: "white",
+                color: "var(--primary)",
+                border: "1px solid var(--primary)",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "var(--purple-50)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "white";
+              }}
+            >
+              Go Home
+            </button>
+            <button 
+              onClick={() => window.location.reload()}
+              style={{
+                background: "var(--primary)",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 4px 8px rgba(111, 68, 255, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Event is ready to render
   return (
     <>
@@ -521,7 +602,11 @@ function EventDetails(props) {
 
       <EventContainer>
         <EventDetailsHeader event={event} />
-        <EventMainInfo event={event} handleGetTickets={handleGetTickets} />
+        <EventMainInfo 
+          event={event} 
+          handleGetTickets={handleGetTickets} 
+          hideTicketButton={showTicketSelection || showPaymentPortal} 
+        />
 
         {/* Ticket Selection Component - Only shown when Get Tickets is clicked */}
         {showTicketSelection && (

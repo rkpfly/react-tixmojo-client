@@ -1,5 +1,5 @@
 import { BiUser, BiCog, BiWallet, BiHelpCircle, BiLogOut } from "react-icons/bi";
-import { HiChartPie } from "react-icons/hi";
+import { HiChartPie, HiOutlineInformationCircle } from "react-icons/hi";
 import { PiListHeartBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
 import "../Style/sidebarAnimation.css";
@@ -205,6 +205,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
             <Link 
               to="/page-not-found"
               style={styles.editProfile}
+              onClick={() => toggleUserSidebar()}
             >
               Edit Profile
             </Link>
@@ -217,6 +218,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -231,6 +233,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -245,6 +248,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -263,6 +267,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
           <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -275,8 +280,24 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
             <BiCog style={styles.icon} /> Account Settings
           </Link>
           <Link 
+            to="/about-us" 
+            style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
+            onMouseEnter={(e) => {
+              Object.assign(e.currentTarget.style, styles.itemHover);
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "";
+              e.currentTarget.style.color = "var(--neutral-800)";
+              e.currentTarget.style.transform = "";
+            }}
+          >
+            <HiOutlineInformationCircle style={styles.icon} /> About Us
+          </Link>
+          <Link 
             to="/page-not-found" 
             style={{...styles.item, textDecoration: "none"}}
+            onClick={() => toggleUserSidebar()}
             onMouseEnter={(e) => {
               Object.assign(e.currentTarget.style, styles.itemHover);
             }}
@@ -315,6 +336,7 @@ export function UserSidebar({ toggleUserSidebar, isUserSidebarOpen }) {
             <Link 
               to="/login" 
               style={{...styles.item, textDecoration: "none", color: "var(--primary)"}}
+              onClick={() => toggleUserSidebar()}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = "rgba(111, 68, 255, 0.1)";
                 e.currentTarget.style.transform = "translateX(5px)";

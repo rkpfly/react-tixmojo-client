@@ -1,9 +1,8 @@
 /**
  * TixMojo API service for handling all API calls
- * Enhanced with fallback support for server-side rendering
  */
 
-import { fallbackAppData, fallbackEvents, fallbackOrganizers } from '../data/fallbackData';
+// No fallback data imports
 
 /**
  * Get the base API URL based on environment
@@ -216,49 +215,16 @@ export const getFlyers = async () => {
 /**
  * Get event by ID
  * @param {string} id - Event ID
- * @param {boolean} [useFallback=false] - Whether to immediately use fallback data
  * @returns {Promise<Object>} - Event data
  */
-export const getEventById = async (id, useFallback = false) => {
+export const getEventById = async (id) => {
   // Validate event ID format - reject "event-#" format
   const isValidEventId = /^[a-z0-9-]+$/.test(id) && !id.match(/^event-\d+$/);
   if (!isValidEventId) {
     throw new Error(`Invalid event ID format: ${id}`);
   }
   
-  // For SSR or when fallback is requested, return immediately with fallback data
-  if (useFallback || (typeof window === 'undefined')) {
-    console.log("Using fallback data for event:", id);
-    const event = fallbackEvents.find(e => e.id === id);
-    
-    // Add organizer info
-    if (event && event.organizerId && fallbackOrganizers[event.organizerId]) {
-      event.organizer = fallbackOrganizers[event.organizerId];
-    }
-    
-    return event || null;
-  }
-
-  try {
-    // Try fetching from API first
-    return await get(`/events/${id}`);
-  } catch (error) {
-    console.error(`API error for event ${id}, using fallback:`, error);
-    
-    // On failure, return fallback data
-    const event = fallbackEvents.find(e => e.id === id);
-    
-    // Add organizer info
-    if (event && event.organizerId && fallbackOrganizers[event.organizerId]) {
-      event.organizer = fallbackOrganizers[event.organizerId];
-    }
-    
-    if (!event) {
-      throw new Error(`Event with ID ${id} not found`);
-    }
-    
-    return event;
-  }
+  return await get(`/events/${id}`);
 };
 
 /**
@@ -282,27 +248,20 @@ export const getLocationDetails = async (location) => {
 
 /**
  * Get all application data in a single request
- * @param {boolean} [useFallback=false] - Whether to immediately use fallback data
  * @returns {Promise<Object>} - All app data including events, locations, and metadata
  */
-export const getAllAppData = async (useFallback = false) => {
-  // For SSR or when fallback is requested, return immediately with fallback data
-  if (useFallback || (typeof window === 'undefined')) {
-    console.log("Using fallback data for app");
-    return fallbackAppData;
-  }
-
-  try {
-    // Try fetching from API first
-    const data = await get("/events/app-data");
-    return data;
-  } catch (error) {
-    console.error("API error, using fallback data:", error);
-    // On failure, return fallback data
-    return fallbackAppData;
-  }
+export const getAllAppData = async () => {
+  return await get("/events/app-data");
 };
 
+/**
+ * Get about us data
+ * @returns {Promise<Object>} - About us data
+ */
+export const getAboutUs = async () => {
+  const data = await get("/about");
+  return data;
+};
 // Export all API functions
 export default {
   // HTTP methods
@@ -323,4 +282,5 @@ export default {
   getLocationEvents,
   getEventsByOrganizer,
   getAllAppData,
+  getAboutUs
 };

@@ -3,45 +3,22 @@ import TicketType from './TicketType';
 
 const TicketTable = ({ tickets, onAddToCart, onQuantityChange, ticketQuantities }) => {
   return (
-    <div
-      style={{
-        borderRadius: '16px',
-        overflow: 'hidden',
-        boxShadow: '0 5px 20px rgba(0, 0, 0, 0.05)',
-        background: 'white',
-        border: '1px solid var(--purple-100)',
-        width: '60%',
-      }}
-    >
+    <>
       {/* Table header */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          padding: '15px 20px',
-          borderBottom: '2px solid var(--purple-100)',
-          backgroundColor: 'var(--purple-50)',
-        }}
-      >
-        <div style={{ flex: '2', fontWeight: '700', color: '#ff5757', fontSize: '14px' }}>
+      <div className="ticket-table-header">
+        <div className="ticket-type-header">
           TYPE
         </div>
-        <div style={{ flex: '1', textAlign: 'center', fontWeight: '700', color: '#ff5757', fontSize: '14px' }}>
+        <div className="ticket-price-header">
           PRICE
         </div>
-        <div style={{ flex: '1', textAlign: 'right', fontWeight: '700', color: '#ff5757', fontSize: '14px' }}>
+        <div className="ticket-action-header">
           ACTION
         </div>
       </div>
 
       {/* Ticket list */}
-      <div
-        style={{
-          maxHeight: '400px',
-          overflowY: 'auto',
-          padding: '0 20px',
-        }}
-      >
+      <div className="ticket-table-body">
         {tickets.map((ticket) => (
           <TicketType
             key={ticket.id}
@@ -52,7 +29,7 @@ const TicketTable = ({ tickets, onAddToCart, onQuantityChange, ticketQuantities 
           />
         ))}
       </div>
-    </div>
+    </>
   );
 };
 

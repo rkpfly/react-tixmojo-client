@@ -21,6 +21,7 @@ function Home(props) {
   const [popularEventsLocation, setPopularEventsLocation] = useState("Sydney");
   const [allAppData, setAllAppData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Format date for display
   const formatDate = (date) => {
@@ -209,7 +210,7 @@ function Home(props) {
           }
           
           if (!useCached) {
-            // Get all data in a single API call, use fallback if API fails
+            // Get all data in a single API call
             const appData = await getAllAppData();
             
             // Store the complete data set
@@ -225,9 +226,7 @@ function Home(props) {
           }
         } catch (error) {
           console.error("Error fetching application data:", error);
-          // Fall back to the fallback data
-          const fallbackData = await getAllAppData(true);
-          setAllAppData(fallbackData);
+          setError("Failed to load app data. Please try again later.");
         } finally {
           setLoading(false);
         }
@@ -291,7 +290,68 @@ function Home(props) {
         keywords="events, tickets, concerts, shows, festivals, entertainment, live music"
       />
 
-      {loading || !allAppData ? (
+      {loading ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "70vh",
+          }}
+        >
+          <Loader size="large" />
+        </div>
+      ) : error ? (
+        <div style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "70vh",
+          textAlign: "center"
+        }}>
+          <div style={{
+            fontSize: "1.2rem",
+            color: "#e53935",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            maxWidth: "500px",
+            padding: "2rem",
+            borderRadius: "8px",
+            background: "#ffebee",
+            border: "1px solid #ffcdd2"
+          }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="#e53935">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p style={{ marginTop: "1rem" }}>{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              style={{
+                marginTop: "1.5rem",
+                background: "var(--primary)",
+                color: "white",
+                border: "none",
+                borderRadius: "6px",
+                padding: "10px 20px",
+                fontWeight: "600",
+                cursor: "pointer",
+                transition: "all 0.3s ease"
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 4px 8px rgba(111, 68, 255, 0.3)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "none";
+              }}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      ) : !allAppData ? (
         <div
           style={{
             display: "flex",

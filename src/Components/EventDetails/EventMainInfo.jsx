@@ -5,7 +5,7 @@ import { BsCalendar2Date } from "react-icons/bs";
 import { HiOutlineLocationMarker, HiOutlineExternalLink } from "react-icons/hi";
 import { IoTicketOutline } from "react-icons/io5";
 
-const EventMainInfo = ({ event, handleGetTickets }) => {
+const EventMainInfo = ({ event, handleGetTickets, hideTicketButton = false }) => {
   const { animationsEnabled, sidebarOpen } = useAnimation();
   return (
     <div
@@ -223,7 +223,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
             {/* Price */}
             <div
               style={{
-                display: "flex",
+                display: hideTicketButton ? "none" : "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
                 gap: "3px",
@@ -239,7 +239,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
               >
                 <div
                   style={{
-                    fontSize: window.innerWidth < 768 ? "16px" : "18px",
+                    fontSize: window.innerWidth < 768 ? "14px" : "18px",
                     color: "var(--neutral-800)",
                     fontWeight: "500",
                   }}
@@ -264,7 +264,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
                   <span
                     style={{
                       fontWeight: "800",
-                      fontSize: window.innerWidth < 768 ? "32px" : "35px",
+                      fontSize: window.innerWidth < 768 ? "28px" : "35px",
                       color: "black",
                       fontFamily: "var(--font-heading)",
                       lineHeight: "1",
@@ -293,7 +293,7 @@ const EventMainInfo = ({ event, handleGetTickets }) => {
                   border: "none",
                   borderRadius: "12px",
                   padding: window.innerWidth < 768 ? "10px" : "15px",
-                  fontSize:"20px",
+                  fontSize:"18px",
                   fontWeight: "600",
                   cursor: "pointer",
                   transition: "all 0.3s ease",

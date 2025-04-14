@@ -11,7 +11,8 @@ const TabMoreInfo = ({
   setShowMoreOptions, 
   setShowContactPopup, 
   organizerEvents,
-  navigate 
+  navigate,
+  windowWidth
 }) => {
   return (
     <div 
@@ -22,18 +23,8 @@ const TabMoreInfo = ({
         zIndex: 1,
       }}
     >
-      <h3
-        style={{
-          fontSize: "22px",
-          fontWeight: "700",
-          color: "var(--primary)",
-          marginBottom: "20px",
-          display: "flex",
-          alignItems: "center",
-          gap: "10px",
-        }}
-      >
-        <BiInfoCircle size={24} /> Additional Information
+      <h3 className="tab-heading">
+        <BiInfoCircle className="tab-heading-icon" /> Additional Information
       </h3>
       
       {/* Organizer Information */}
@@ -41,7 +32,8 @@ const TabMoreInfo = ({
         event={event} 
         organizerEvents={organizerEvents} 
         setShowContactPopup={setShowContactPopup} 
-        navigate={navigate} 
+        navigate={navigate}
+        windowWidth={windowWidth}
       />
       
       {/* FAQ Section */}
@@ -49,10 +41,14 @@ const TabMoreInfo = ({
         faq={event.faq}
         showMoreOptions={showMoreOptions}
         setShowMoreOptions={setShowMoreOptions}
+        windowWidth={windowWidth}
       />
       
       {/* Sponsors section */}
-      <EventSponsors sponsors={event.sponsors} />
+      <EventSponsors 
+        sponsors={event.sponsors}
+        windowWidth={windowWidth}
+      />
     </div>
   );
 };

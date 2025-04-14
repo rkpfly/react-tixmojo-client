@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BiDetail, BiStar, BiMap, BiInfoCircle } from "react-icons/bi";
 import { ScrollAnimation } from "../../utils/ScrollAnimation.jsx";
 import { useAnimation } from "../../context/AnimationContext";
@@ -6,12 +6,26 @@ import TabDetails from './TabDetails';
 import TabVenue from './TabVenue';
 import TabHighlights from './TabHighlights';
 import TabMoreInfo from './TabMoreInfo';
+import "../../Style/eventTabs.css";
 
 const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTickets, navigate }) => {
   const [activeTab, setActiveTab] = useState("details");
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const { animationsEnabled, sidebarOpen } = useAnimation();
+
+  // Track window width for responsive behavior
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const isMobile = windowWidth <= 768;
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <ScrollAnimation
@@ -21,203 +35,66 @@ const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTicke
       delay={0.3}
       disabled={!animationsEnabled || sidebarOpen}
     >
-      <div
-        style={{
-          marginTop: "60px",
-          position: "relative",
-          overflow: "hidden",
-          borderRadius: "24px",
-          boxShadow: "0 20px 40px rgba(111, 68, 255, 0.08)",
-          border: "1px solid var(--purple-100)",
-          background: "var(--neutral-50)",
-        }}
-      >
+      <div className="event-tabs-container">
         {/* Tabs Navigation */}
-        <div
-          style={{
-            display: "flex",
-            borderBottom: "1px solid var(--purple-100)",
-            position: "relative",
-            overflow: "hidden",
-            backgroundColor: "var(--purple-50)",
-          }}
-        >
-          {/* Active tab indicator - animated */}
-          <div
+        <div className="tab-navigation">
+          {/* Active tab indicator - animated (only shows on desktop) */}
+          <div 
+            className="tab-indicator"
             style={{
-              position: "absolute",
-              bottom: 0,
-              height: "3px",
-              backgroundColor: "var(--primary)",
-              transition: "all 0.3s cubic-bezier(0.17, 0.67, 0.83, 0.67)",
               left: activeTab === "details" ? "0%" : 
                     activeTab === "venue" ? "25%" : 
                     activeTab === "highlights" ? "50%" : "75%",
               width: "25%",
-              borderRadius: "3px 3px 0 0",
             }}
           />
           
           {/* Tab buttons */}
           <button
             onClick={() => setActiveTab("details")}
-            style={{
-              flex: 1,
-              padding: "20px 15px",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeTab === "details" ? "700" : "500",
-              color: activeTab === "details" ? "var(--primary)" : "var(--neutral-700)",
-              fontSize: "16px",
-              transition: "all 0.2s ease",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
-              position: "relative",
-              overflow: "hidden",
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== "details") {
-                e.currentTarget.style.backgroundColor = "var(--purple-100)";
-                e.currentTarget.style.color = "var(--primary)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== "details") {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--neutral-700)";
-              }
-            }}
+            className={`tab-button ${activeTab === "details" ? 'active' : ''}`}
+            aria-selected={activeTab === "details"}
+            role="tab"
           >
-            <BiDetail size={22} />
+            <BiDetail className="tab-icon" />
             <span>Details</span>
           </button>
           
           <button
             onClick={() => setActiveTab("venue")}
-            style={{
-              flex: 1,
-              padding: "20px 15px",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeTab === "venue" ? "700" : "500",
-              color: activeTab === "venue" ? "var(--primary)" : "var(--neutral-700)",
-              fontSize: "16px",
-              transition: "all 0.2s ease",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== "venue") {
-                e.currentTarget.style.backgroundColor = "var(--purple-100)";
-                e.currentTarget.style.color = "var(--primary)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== "venue") {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--neutral-700)";
-              }
-            }}
+            className={`tab-button ${activeTab === "venue" ? 'active' : ''}`}
+            aria-selected={activeTab === "venue"}
+            role="tab"
           >
-            <BiMap size={22} />
+            <BiMap className="tab-icon" />
             <span>Venue</span>
           </button>
           
           <button
             onClick={() => setActiveTab("highlights")}
-            style={{
-              flex: 1,
-              padding: "20px 15px",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeTab === "highlights" ? "700" : "500",
-              color: activeTab === "highlights" ? "var(--primary)" : "var(--neutral-700)",
-              fontSize: "16px",
-              transition: "all 0.2s ease",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== "highlights") {
-                e.currentTarget.style.backgroundColor = "var(--purple-100)";
-                e.currentTarget.style.color = "var(--primary)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== "highlights") {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--neutral-700)";
-              }
-            }}
+            className={`tab-button ${activeTab === "highlights" ? 'active' : ''}`}
+            aria-selected={activeTab === "highlights"}
+            role="tab"
           >
-            <BiStar size={22} />
+            <BiStar className="tab-icon" />
             <span>Highlights</span>
           </button>
           
           <button
             onClick={() => setActiveTab("more")}
-            style={{
-              flex: 1,
-              padding: "20px 15px",
-              backgroundColor: "transparent",
-              border: "none",
-              cursor: "pointer",
-              fontWeight: activeTab === "more" ? "700" : "500",
-              color: activeTab === "more" ? "var(--primary)" : "var(--neutral-700)",
-              fontSize: "16px",
-              transition: "all 0.2s ease",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "8px",
-            }}
-            onMouseEnter={(e) => {
-              if (activeTab !== "more") {
-                e.currentTarget.style.backgroundColor = "var(--purple-100)";
-                e.currentTarget.style.color = "var(--primary)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (activeTab !== "more") {
-                e.currentTarget.style.backgroundColor = "transparent";
-                e.currentTarget.style.color = "var(--neutral-700)";
-              }
-            }}
+            className={`tab-button ${activeTab === "more" ? 'active' : ''}`}
+            aria-selected={activeTab === "more"}
+            role="tab"
           >
-            <BiInfoCircle size={22} />
+            <BiInfoCircle className="tab-icon" />
             <span>More Info</span>
           </button>
         </div>
 
         {/* Tab Content */}
-        <div
-          style={{
-            padding: "32px 40px",
-            position: "relative",
-            background: "var(--neutral-50)",
-            minHeight: "300px",
-          }}
-        >
+        <div className="tab-content">
           {/* Background Pattern */}
-          <div
-            style={{
-              position: "absolute",
-              top: "15px",
-              right: "15px",
-              opacity: 0.04,
-              zIndex: 0,
-              pointerEvents: "none",
-            }}
-          >
+          <div className="tab-background-pattern">
             <svg width="150" height="150" viewBox="0 0 100 100" fill="none">
               <circle cx="10" cy="10" r="3" fill="var(--primary)" />
               <circle cx="10" cy="30" r="3" fill="var(--primary)" />
@@ -253,17 +130,20 @@ const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTicke
             activeTab={activeTab} 
             isDescriptionExpanded={isDescriptionExpanded}
             setIsDescriptionExpanded={setIsDescriptionExpanded}
+            windowWidth={windowWidth}
           />
           
           <TabVenue 
             event={event} 
-            activeTab={activeTab} 
+            activeTab={activeTab}
+            windowWidth={windowWidth}
           />
           
           <TabHighlights 
             event={event} 
             activeTab={activeTab} 
-            handleGetTickets={handleGetTickets} 
+            handleGetTickets={handleGetTickets}
+            windowWidth={windowWidth}
           />
           
           <TabMoreInfo 
@@ -274,6 +154,7 @@ const EventTabs = ({ event, setShowContactPopup, organizerEvents, handleGetTicke
             setShowContactPopup={setShowContactPopup}
             organizerEvents={organizerEvents}
             navigate={navigate}
+            windowWidth={windowWidth}
           />
         </div>
       </div>

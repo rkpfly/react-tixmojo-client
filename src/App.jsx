@@ -18,6 +18,7 @@ import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 // Lazy load the components to handle any potential loading issues
 const EventDetails = React.lazy(() => import("./pages/EventDetails"));
 const Login = React.lazy(() => import("./pages/Login"));
+const AboutUs = React.lazy(() => import("./pages/AboutUs"));
 
 function AppContent({ serverData }) {
   const { setSidebarStatus } = useAnimation();
@@ -108,6 +109,20 @@ function AppContent({ serverData }) {
                 </div>
               }>
                 <Login {...getPageProps('login')} />
+              </React.Suspense>
+            } />
+            <Route path="/about-us" element={
+              <React.Suspense fallback={
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "70vh",
+                }}>
+                  <Loader size="large" text="Loading about us page..." />
+                </div>
+              }>
+                <AboutUs {...getPageProps('aboutUs')} />
               </React.Suspense>
             } />
             <Route path="/page-not-found" element={<PageNotFound {...getPageProps('404')} />} />
