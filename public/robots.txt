@@ -1,5 +1,5 @@
 # TixMojo Robots.txt
-# Last updated: 2025-04-04
+# Last updated: 2025-04-14
 
 # Allow all web crawlers full access by default
 User-agent: *
@@ -10,6 +10,11 @@ Disallow: /page-not-found
 Disallow: /error
 Disallow: /admin/
 Disallow: /api/
+
+# Allow legal pages and about page
+Allow: /terms-conditions
+Allow: /privacy-policy
+Allow: /about-us
 
 # Crawl delay directive (in seconds) - optional, helps prevent server overload
 Crawl-delay: 1

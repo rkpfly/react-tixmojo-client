@@ -40,6 +40,13 @@ const PhoneInputWithValidation = ({ fieldName = 'phone', defaultCountry = 'AU', 
           
           console.log(`Auto-detected country from initial value: ${parsed.country}`);
           
+          // Format the phone number properly for this country
+          const formattedValue = formatPhoneNumber(phoneValue, parsed.country);
+          if (formattedValue !== phoneValue) {
+            setValue(fieldName, formattedValue, { shouldValidate: false });
+            console.log(`Formatted phone number: ${phoneValue} → ${formattedValue}`);
+          }
+          
           // Trigger validation after country update
           const validationTimer = setTimeout(() => {
             trigger(fieldName);
@@ -50,6 +57,7 @@ const PhoneInputWithValidation = ({ fieldName = 'phone', defaultCountry = 'AU', 
         }
       } catch (err) {
         // Could not parse country from initial value
+        console.warn("Could not parse country from initial phone value:", err);
       }
     }
   }, []);

@@ -163,44 +163,57 @@ function Footer() {
                 margin: 0,
               }}
             >
-              {quickLinks.map((link, index) => (
-                <li key={index} style={{ marginBottom: "12px" }}>
-                  <Link
-                    to="/page-not-found"
-                    style={{
-                      color: "var(--gray-light)",
-                      textDecoration: "none",
-                      fontSize: "14px",
-                      display: "inline-block",
-                      position: "relative",
-                      paddingLeft: "15px",
-                      transition: "all 0.3s ease",
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.color = "var(--primary-light)";
-                      e.currentTarget.style.paddingLeft = "20px";
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.color = "var(--gray-light)";
-                      e.currentTarget.style.paddingLeft = "15px";
-                    }}
-                  >
-                    <span
+              {quickLinks.map((link, index) => {
+                let linkPath = "/page-not-found";
+                
+                // Set proper paths for privacy policy and terms pages
+                if (link === "footer.links.redirects.two") {
+                  linkPath = "/privacy-policy";
+                } else if (link === "footer.links.redirects.one") {
+                  linkPath = "/terms-conditions"; 
+                } else if (link === "footer.information.redirects.one") {
+                  linkPath = "/about-us";
+                }
+                
+                return (
+                  <li key={index} style={{ marginBottom: "12px" }}>
+                    <Link
+                      to={linkPath}
                       style={{
-                        position: "absolute",
-                        left: "0",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        width: "6px",
-                        height: "6px",
-                        borderRadius: "50%",
-                        backgroundColor: "var(--primary)",
+                        color: "var(--gray-light)",
+                        textDecoration: "none",
+                        fontSize: "14px",
+                        display: "inline-block",
+                        position: "relative",
+                        paddingLeft: "15px",
+                        transition: "all 0.3s ease",
                       }}
-                    ></span>
-                    {t(link)}
-                  </Link>
-                </li>
-              ))}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = "var(--primary-light)";
+                        e.currentTarget.style.paddingLeft = "20px";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = "var(--gray-light)";
+                        e.currentTarget.style.paddingLeft = "15px";
+                      }}
+                    >
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: "0",
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          width: "6px",
+                          height: "6px",
+                          borderRadius: "50%",
+                          backgroundColor: "var(--primary)",
+                        }}
+                      ></span>
+                      {t(link)}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
@@ -383,30 +396,57 @@ function Footer() {
               gap: "20px",
             }}
           >
-            {[
-              "footer.tnc.privacy",
-              "footer.tnc.refund",
-              "footer.tnc.terms",
-            ].map((item, index) => (
-              <Link
-                key={index}
-                to="/page-not-found"
-                style={{
-                  color: "var(--gray-light)",
-                  textDecoration: "none",
-                  fontSize: "14px",
-                  transition: "color 0.3s ease",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.color = "var(--primary-light)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.color = "var(--gray-light)";
-                }}
-              >
-                {t(item)}
-              </Link>
-            ))}
+            <Link
+              to="/privacy-policy"
+              style={{
+                color: "var(--gray-light)",
+                textDecoration: "none",
+                fontSize: "14px",
+                transition: "color 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--primary-light)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--gray-light)";
+              }}
+            >
+              {t("footer.tnc.privacy")}
+            </Link>
+            <Link
+              to="/page-not-found"
+              style={{
+                color: "var(--gray-light)",
+                textDecoration: "none",
+                fontSize: "14px",
+                transition: "color 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--primary-light)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--gray-light)";
+              }}
+            >
+              {t("footer.tnc.refund")}
+            </Link>
+            <Link
+              to="/terms-conditions"
+              style={{
+                color: "var(--gray-light)",
+                textDecoration: "none",
+                fontSize: "14px",
+                transition: "color 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = "var(--primary-light)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = "var(--gray-light)";
+              }}
+            >
+              {t("footer.tnc.terms")}
+            </Link>
           </div>
         </div>
       </div>

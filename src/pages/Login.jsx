@@ -5,6 +5,7 @@ import OrDivider from '../Components/Auth/OrDivider';
 import GoogleLoginButton from '../Components/Auth/GoogleLoginButton';
 import GoogleAuthStatus from '../Components/Auth/GoogleAuthStatus';
 import { useAuth } from '../context/AuthContext';
+import { fetchUserPhoneNumbers, extractBestPhoneNumber } from '../services/googlePeopleService';
 import { ScrollAnimation } from '../utils/ScrollAnimation.jsx';
 
 const Login = () => {
@@ -114,25 +115,62 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLoginSuccess = (credentialResponse) => {
+  const handleGoogleLoginSuccess = async (credentialResponse) => {
     setLoading(true);
     setError('');
 
     try {
       console.log("Google login success:", credentialResponse);
 
-      // In a real app, you'd verify the token on your backend
-      // For demo purposes, we'll simulate a successful login
-
-      // Get user info from JWT token (simplified for demo)
-      const token = credentialResponse.credential;
-      const tokenParts = token.split('.');
-      const payload = JSON.parse(atob(tokenParts[1]));
+      // Handle different credential formats
+      let payload;
+      
+      if (credentialResponse.credential === 'custom-login' && credentialResponse.userInfo) {
+        // For our custom login flow, use the user info directly
+        console.log("Using custom login flow user info");
+        payload = credentialResponse.userInfo;
+      } else if (credentialResponse.credential) {
+        // For standard Google login, decode the JWT token
+        console.log("Decoding standard JWT token");
+        const token = credentialResponse.credential;
+        const tokenParts = token.split('.');
+        payload = JSON.parse(atob(tokenParts[1]));
+      } else {
+        throw new Error("Invalid credential response format");
+      }
 
       console.log("Decoded token:", payload);
 
-      // Format simulated phone number for consistent display
-      const simulatePhoneNumber = () => {
+      // Try to fetch phone numbers from Google People API if scope was granted
+      let phoneNumber = '';
+      try {
+        // Check if the access token is available from the credential response
+        if (credentialResponse.access_token) {
+          console.log("Access token available, fetching phone numbers from Google People API");
+          const phoneNumbers = await fetchUserPhoneNumbers(credentialResponse.access_token);
+          console.log("Phone numbers from Google People API:", phoneNumbers);
+          
+          if (phoneNumbers && phoneNumbers.length > 0) {
+            phoneNumber = extractBestPhoneNumber(phoneNumbers);
+            console.log("Phone number fetched from Google People API:", phoneNumber);
+            
+            // Set the phone number in the form for easy access on return to ticket page
+            if (phoneValue && phoneValue !== phoneNumber) {
+              console.log(`Updating phone number from Google People API: ${phoneValue} → ${phoneNumber}`);
+              setPhone(phoneNumber);
+            }
+          } else {
+            console.log("No phone numbers found in Google People API response");
+          }
+        } else {
+          console.log("No access token available for Google People API");
+        }
+      } catch (peopleApiError) {
+        console.error("Error fetching phone number from Google People API:", peopleApiError);
+      }
+
+      // Fallback to simulating a phone number if we couldn't get one from People API
+      if (!phoneNumber) {
         // Generate a consistent phone number from the user ID
         if (payload.sub) {
           // Use last 10 digits or pad with zeros
@@ -142,39 +180,34 @@ const Login = () => {
           } else if (digits.length < 10) {
             digits = digits.padStart(10, '0');
           }
-          return `+1${digits}`;
+          phoneNumber = `+1${digits}`;
+        } else {
+          phoneNumber = '+12025550198'; // Default fallback
         }
-        return '+12025550198'; // Default fallback
-      };
+        console.log("Using simulated phone number:", phoneNumber);
+      }
 
       // Create user data object
       const userData = {
         id: payload.sub,
-        sub: payload.sub, // Keep sub for phone number generation in AuthContext
+        sub: payload.sub,
         email: payload.email,
         firstName: payload.given_name || payload.name?.split(' ')[0] || 'Google',
         lastName: payload.family_name || payload.name?.split(' ').slice(1).join(' ') || 'User',
-        // Keep both picture and profilePicture for compatibility
         picture: payload.picture || 'https://via.placeholder.com/150',
         profilePicture: payload.picture || 'https://via.placeholder.com/150',
         provider: 'google',
         locale: payload.locale,
-        // In a real app this would come from Google's People API
-        // For demo purposes, we generate a consistent phone number from the user ID
-        phone: simulatePhoneNumber(),
-        isAuthenticated: true
+        // Use the phone number from Google People API or the fallback
+        phone: phoneNumber,
+        isAuthenticated: true,
+        // Store the access token for future use
+        access_token: credentialResponse.access_token
       };
-
-      // Log profile image info for debugging
-      console.log("Profile image info:", {
-        pictureProp: payload.picture,
-        googlePicture: payload.picture || 'None',
-        finalPicture: userData.profilePicture || 'None'
-      });
 
       console.log("Generated user data:", userData);
 
-      // Log the user in - will process the phone number in the AuthContext
+      // Log the user in
       login(userData);
 
       // Navigate back to the previous page or home

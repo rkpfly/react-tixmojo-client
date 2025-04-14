@@ -19,6 +19,8 @@ import ProtectedRoute from "./Components/Auth/ProtectedRoute";
 const EventDetails = React.lazy(() => import("./pages/EventDetails"));
 const Login = React.lazy(() => import("./pages/Login"));
 const AboutUs = React.lazy(() => import("./pages/AboutUs"));
+const TermsConditions = React.lazy(() => import("./pages/TermsConditions"));
+const PrivacyPolicy = React.lazy(() => import("./pages/PrivacyPolicy"));
 
 function AppContent({ serverData }) {
   const { setSidebarStatus } = useAnimation();
@@ -123,6 +125,34 @@ function AppContent({ serverData }) {
                 </div>
               }>
                 <AboutUs {...getPageProps('aboutUs')} />
+              </React.Suspense>
+            } />
+            <Route path="/terms-conditions" element={
+              <React.Suspense fallback={
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "70vh",
+                }}>
+                  <Loader size="large" text="Loading terms and conditions..." />
+                </div>
+              }>
+                <TermsConditions {...getPageProps('termsConditions')} />
+              </React.Suspense>
+            } />
+            <Route path="/privacy-policy" element={
+              <React.Suspense fallback={
+                <div style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "70vh",
+                }}>
+                  <Loader size="large" text="Loading privacy policy..." />
+                </div>
+              }>
+                <PrivacyPolicy {...getPageProps('privacyPolicy')} />
               </React.Suspense>
             } />
             <Route path="/page-not-found" element={<PageNotFound {...getPageProps('404')} />} />

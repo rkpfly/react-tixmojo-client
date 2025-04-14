@@ -788,31 +788,31 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
 
   return (
     <div className="payment-portal-container">
-{window.width < 768 && (
-  <div className="mobile-timer-banner">
-    <div className="timer-label">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple-800)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 2h4a2 2 0 0 1 2 2v2H8V4a2 2 0 0 1 2-2z"></path>
-        <path d="M8 4L6 7.5 8 10 6 13.5 8 16l-2 3.5 2 2.5"></path>
-        <path d="M16 4l2 3.5-2 2.5 2 3.5-2 2.5 2 3.5-2 2.5"></path>
-        <rect x="4" y="18" width="16" height="4" rx="2"></rect>
-      </svg>
-      <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--purple-800)' }}>
-        Session Expires In
-      </span>
-    </div>
+      {window.width < 768 && (
+        <div className="mobile-timer-banner">
+          <div className="timer-label">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple-800)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 2h4a2 2 0 0 1 2 2v2H8V4a2 2 0 0 1 2-2z"></path>
+              <path d="M8 4L6 7.5 8 10 6 13.5 8 16l-2 3.5 2 2.5"></path>
+              <path d="M16 4l2 3.5-2 2.5 2 3.5-2 2.5 2 3.5-2 2.5"></path>
+              <rect x="4" y="18" width="16" height="4" rx="2"></rect>
+            </svg>
+            <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--purple-800)' }}>
+              Session Expires In
+            </span>
+          </div>
 
-    <div className="timer-digits" style={{ animation: isAlmostExpired ? 'pulse 1.5s infinite' : 'none' }}>
-      <span className="timer-digit">
-        {String(timeLeft.minutes).padStart(2, '0')}
-      </span>
-      <span className="timer-separator">:</span>
-      <span className="timer-digit">
-        {String(timeLeft.seconds).padStart(2, '0')}
-      </span>
-    </div>
-  </div>
-)}
+          <div className="timer-digits" style={{ animation: isAlmostExpired ? 'pulse 1.5s infinite' : 'none' }}>
+            <span className="timer-digit">
+              {String(timeLeft.minutes).padStart(2, '0')}
+            </span>
+            <span className="timer-separator">:</span>
+            <span className="timer-digit">
+              {String(timeLeft.seconds).padStart(2, '0')}
+            </span>
+          </div>
+        </div>
+      )}
       {/* Back and cancel buttons */}
       <div className="payment-nav-buttons">
         <button className="back-button" onClick={handleBack}>
@@ -849,25 +849,25 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--purple-800)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M10 2h4a2 2 0 0 1 2 2v2H8V4a2 2 0 0 1 2-2z"></path>
               <path d="M8 4L6 7.5 8 10 6 13.5 8 16l-2 3.5 2 2.5"></path>
-            <path d="M16 4l2 3.5-2 2.5 2 3.5-2 2.5 2 3.5-2 2.5"></path>
-            <rect x="4" y="18" width="16" height="4" rx="2"></rect>
-          </svg>
-          <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--purple-800)' }}>
-            Session Expires In
-          </span>
-        </div>
+              <path d="M16 4l2 3.5-2 2.5 2 3.5-2 2.5 2 3.5-2 2.5"></path>
+              <rect x="4" y="18" width="16" height="4" rx="2"></rect>
+            </svg>
+            <span style={{ fontSize: '16px', fontWeight: '700', color: 'var(--purple-800)' }}>
+              Session Expires In
+            </span>
+          </div>
 
-        <div className="timer-digits" style={{ animation: isAlmostExpired ? 'pulse 1.5s infinite' : 'none' }}>
-          <span className="timer-digit">
-            {String(timeLeft.minutes).padStart(2, '0')}
-          </span>
-          <span className="timer-separator">:</span>
-          <span className="timer-digit">
-            {String(timeLeft.seconds).padStart(2, '0')}
-          </span>
+          <div className="timer-digits" style={{ animation: isAlmostExpired ? 'pulse 1.5s infinite' : 'none' }}>
+            <span className="timer-digit">
+              {String(timeLeft.minutes).padStart(2, '0')}
+            </span>
+            <span className="timer-separator">:</span>
+            <span className="timer-digit">
+              {String(timeLeft.seconds).padStart(2, '0')}
+            </span>
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
       {/* Main content container */}
       <div className="payment-content">
@@ -918,8 +918,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                 width: '55%'
               }}>
                 <div style={{
-                  width: '25px',
-                  height: '25px',
+                  width: window.innerWidth < 768 ? '25px' : '36px',
+                  height: window.innerWidth < 768 ? '25px' : '36px',
                   borderRadius: '50%',
                   backgroundColor: currentStep === 'buyerInfo' ? 'var(--purple-600)' :
                     (currentStep === 'paymentInfo' ? 'var(--purple-300)' : '#e0e0e0'),
@@ -929,7 +929,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: '700',
-                  fontSize: '12px',
+                  fontSize: window.innerWidth < 768 ? '12px' : '16px',
+                  marginRight: window.innerWidth < 768 ? '0px' : '10px',
                   transition: 'all 0.3s ease',
                   boxShadow: currentStep === 'buyerInfo' ? '0 2px 8px rgba(111, 68, 255, 0.3)' : 'none'
                 }}>
@@ -940,7 +941,7 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                   flexDirection: 'column'
                 }}>
                   <span style={{
-                    fontSize: '12px',
+                    fontSize: window.innerWidth < 768 ? '12px' : '15px',
                     fontWeight: '600',
                     color: currentStep === 'buyerInfo' ? 'var(--purple-600)' :
                       (currentStep === 'paymentInfo' ? 'var(--purple-300)' : 'var(--neutral-600)'),
@@ -949,7 +950,7 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                     BUYER INFORMATION
                   </span>
                   <span style={{
-                    fontSize: '9px',
+                    fontSize: window.innerWidth < 768 ? '9px' : '12px',
                     color: 'var(--neutral-500)',
                     marginTop: '2px'
                   }}>
@@ -966,8 +967,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                 width: '45%'
               }}>
                 <div style={{
-                  width: '25px',
-                  height: '25px',
+                  width: window.innerWidth < 768 ? '25px' : '36px',
+                  height: window.innerWidth < 768 ? '25px' : '36px',
                   borderRadius: '50%',
                   backgroundColor: currentStep === 'paymentInfo' ? 'var(--purple-600)' : '#e0e0e0',
                   color: currentStep === 'paymentInfo' ? 'white' : 'var(--neutral-600)',
@@ -975,7 +976,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: '700',
-                  fontSize: '12px',
+                  fontSize: window.innerWidth < 768 ? '12px' : '16px',
+                  marginRight: window.innerWidth < 768 ? '0px' : '10px',
                   transition: 'all 0.3s ease',
                   boxShadow: currentStep === 'paymentInfo' ? '0 2px 8px rgba(111, 68, 255, 0.3)' : 'none'
                 }}>
@@ -986,7 +988,7 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                   flexDirection: 'column'
                 }}>
                   <span style={{
-                    fontSize: '12px',
+                    fontSize: window.innerWidth < 768 ? '12px' : '15px',
                     fontWeight: '600',
                     color: currentStep === 'paymentInfo' ? 'var(--purple-600)' : 'var(--neutral-600)',
                     transition: 'color 0.3s ease'
@@ -994,7 +996,7 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                     PAYMENT DETAILS
                   </span>
                   <span style={{
-                    fontSize: '9px',
+                    fontSize: window.innerWidth < 768 ? '9px' : '12px',
                     color: 'var(--neutral-500)',
                     marginTop: '2px'
                   }}>
@@ -1027,8 +1029,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                     placeholder="John"
                     className="form-input"
                     style={{
-                      borderColor: buyerInfoForm.formState.errors.firstName ? 'var(--primary)' : 
-                                   (buyerInfoForm.formState.touchedFields.firstName ? 'var(--purple-200)' : '#e0e0e0'),
+                      borderColor: buyerInfoForm.formState.errors.firstName ? 'var(--primary)' :
+                        (buyerInfoForm.formState.touchedFields.firstName ? 'var(--purple-200)' : '#e0e0e0'),
                       backgroundColor: buyerInfoForm.formState.errors.firstName ? 'rgba(255, 0, 60, 0.03)' : 'transparent',
                       boxShadow: buyerInfoForm.formState.dirtyFields.firstName ? '0 0 0 3px rgba(111, 68, 255, 0.1)' : 'none'
                     }}
@@ -1057,8 +1059,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                     placeholder="Doe"
                     className="form-input"
                     style={{
-                      borderColor: buyerInfoForm.formState.errors.lastName ? 'var(--primary)' : 
-                                   (buyerInfoForm.formState.touchedFields.lastName ? 'var(--purple-200)' : '#e0e0e0'),
+                      borderColor: buyerInfoForm.formState.errors.lastName ? 'var(--primary)' :
+                        (buyerInfoForm.formState.touchedFields.lastName ? 'var(--purple-200)' : '#e0e0e0'),
                       backgroundColor: buyerInfoForm.formState.errors.lastName ? 'rgba(255, 0, 60, 0.03)' : 'transparent',
                       boxShadow: buyerInfoForm.formState.dirtyFields.lastName ? '0 0 0 3px rgba(111, 68, 255, 0.1)' : 'none'
                     }}
@@ -1099,8 +1101,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
                   placeholder="your.email@example.com"
                   className="form-input"
                   style={{
-                    borderColor: buyerInfoForm.formState.errors.email ? 'var(--primary)' : 
-                               (buyerInfoForm.formState.touchedFields.email ? 'var(--purple-200)' : '#e0e0e0'),
+                    borderColor: buyerInfoForm.formState.errors.email ? 'var(--primary)' :
+                      (buyerInfoForm.formState.touchedFields.email ? 'var(--purple-200)' : '#e0e0e0'),
                     backgroundColor: buyerInfoForm.formState.errors.email ? 'rgba(255, 0, 60, 0.03)' : 'transparent',
                     boxShadow: buyerInfoForm.formState.dirtyFields.email ? '0 0 0 3px rgba(111, 68, 255, 0.1)' : 'none'
                   }}
@@ -1596,8 +1598,8 @@ const PaymentPortal = ({ event, expiryTime, onExpire, cartItems, totalAmount, di
       {/* Mobile cart popup */}
       {showCartPopup && (
         <>
-          <div 
-            className="cart-popup-overlay" 
+          <div
+            className="cart-popup-overlay"
             onClick={toggleCartPopup}
             style={{ display: 'block' }}
           ></div>

@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
     
     if (userData.provider === 'google') {
       // Extract and normalize phone number from Google user data if available
-      let phoneNumber = userData.phoneNumber || userData.phone || '';
+      let phoneNumber = userData.phone || userData.phoneNumber || '';
       
       // If no phone number is available but we have a sub (Google ID), we can
       // simulate one for demo purposes with the last 8 digits of the ID
