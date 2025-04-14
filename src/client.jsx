@@ -27,8 +27,8 @@ const initialData = window.__INITIAL_DATA__ || {};
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 // Check if we have a valid-looking Google OAuth client ID
-const isValidGoogleClientId = googleClientId && 
-  googleClientId.includes('.apps.googleusercontent.com') && 
+const isValidGoogleClientId = googleClientId &&
+  googleClientId.includes('.apps.googleusercontent.com') &&
   googleClientId.length > 30;
 
 if (!isValidGoogleClientId) {
@@ -60,7 +60,7 @@ hydrateRoot(
 window.addEventListener('load', () => {
   const hydrationTime = performance.now() - startHydration;
   console.log(`Hydration completed in ${Math.round(hydrationTime)}ms`);
-  
+
   // Report as a performance metric
   if (window.performance && window.performance.mark) {
     performance.mark('hydration-end');

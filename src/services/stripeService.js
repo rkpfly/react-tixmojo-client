@@ -1,14 +1,20 @@
 /**
- * Payment Service with Local Mock Implementation
+ * Stripe Payment Service with Local Mock Implementation
  * 
- * This service simulates payment API calls locally since the backend endpoints
+ * This service simulates Stripe API calls locally since the backend endpoints
  * appear to be missing or not properly configured
  */
+
+// Load the appropriate Stripe API key based on environment
+const isProduction = import.meta.env.VITE_ENV === 'production';
+const STRIPE_PUBLISHABLE_KEY = isProduction
+  ? import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY_PROD
+  : (import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY_DEV || 'pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 // Local storage key for simulated sessions
 const STORAGE_KEY = 'tixmojo_payment_sessions';
 
-// Generate a random ID for simulated sessions and orders
+// Generate a random ID for simulated sessions and intents
 const generateId = (prefix) => `${prefix}_${Math.random().toString(36).substring(2, 15)}`;
 
 // Get sessions from local storage
@@ -63,7 +69,7 @@ export const initializePaymentSession = async (cartItems, event) => {
     status: 'initialized',
     discount: 0,
     buyerInfo: null,
-    paymentInfo: null
+    paymentIntent: null
   };
   
   // Save the session
@@ -114,12 +120,60 @@ export const validateBuyerInfo = async (sessionId, buyerInfo) => {
 };
 
 /**
- * Process payment
+ * Create a simulated Stripe payment intent
  * @param {String} sessionId - Current payment session ID
- * @param {Object} paymentInfo - Payment information (processed securely on server)
- * @returns {Promise} Payment response including order ID
+ * @returns {Promise} Payment intent creation response including client secret
  */
-export const processPayment = async (sessionId, paymentInfo) => {
+export const createPaymentIntent = async (sessionId) => {
+  // Simulate network delay
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  
+  // Get the session
+  const sessions = getSessions();
+  const session = sessions[sessionId];
+  
+  if (!session) {
+    throw new Error('Session not found');
+  }
+  
+  // Generate a payment intent ID and client secret
+  const paymentIntentId = generateId('pi');
+  const clientSecret = `${paymentIntentId}_secret_${generateId('')}`;
+  
+  // Create a payment intent object
+  const paymentIntent = {
+    id: paymentIntentId,
+    clientSecret,
+    amount: session.totalAmount,
+    currency: 'usd',
+    status: 'requires_payment_method',
+    created: Date.now()
+  };
+  
+  // Update the session with payment intent
+  session.paymentIntent = paymentIntent;
+  session.status = 'payment_intent_created';
+  
+  // Save the updated session
+  sessions[sessionId] = session;
+  saveSessions(sessions);
+  
+  // Return the client secret
+  return {
+    clientSecret,
+    isSimulated: true,
+    amount: session.totalAmount,
+    currency: 'usd'
+  };
+};
+
+/**
+ * Confirm payment success
+ * @param {String} sessionId - Current payment session ID
+ * @param {String} paymentIntentId - Stripe payment intent ID
+ * @returns {Promise} Confirmation response including order ID
+ */
+export const confirmPaymentSuccess = async (sessionId, paymentIntentId) => {
   // Simulate network delay
   await new Promise(resolve => setTimeout(resolve, 1200));
   
@@ -131,18 +185,10 @@ export const processPayment = async (sessionId, paymentInfo) => {
     throw new Error('Session not found');
   }
   
-  // Validate payment information (simulated)
-  if (!paymentInfo.cardholderName || !paymentInfo.cardNumber || !paymentInfo.expiryDate || !paymentInfo.cvv) {
-    throw new Error('Invalid payment information');
+  // Update the payment intent status
+  if (session.paymentIntent) {
+    session.paymentIntent.status = 'succeeded';
   }
-  
-  // Update the session with payment info (never store full card details in a real app)
-  session.paymentInfo = {
-    cardholderName: paymentInfo.cardholderName,
-    cardLast4: paymentInfo.cardNumber.slice(-4),
-    cardExpiry: paymentInfo.expiryDate,
-    paymentMethod: 'credit_card'
-  };
   
   // Update the session status
   session.status = 'payment_succeeded';
@@ -266,58 +312,29 @@ export const getSessionStatus = async (sessionId) => {
 };
 
 /**
- * Create a payment intent (compatibility with Stripe service)
- * @param {String} sessionId - Current payment session ID
- * @returns {Promise} Payment intent creation response
+ * Get Stripe publishable key
+ * @returns {String} Stripe publishable key for the current environment
  */
-export const createPaymentIntent = async (sessionId) => {
-  // Simulate network delay
-  await new Promise(resolve => setTimeout(resolve, 1000));
-  
-  // Get the session
-  const sessions = getSessions();
-  const session = sessions[sessionId];
-  
-  if (!session) {
-    throw new Error('Session not found');
-  }
-  
-  // Generate a client secret (for compatibility with Stripe service)
-  const clientSecret = `fallback_${generateId('secret')}`;
-  
-  // Return the client secret
-  return {
-    clientSecret,
-    isSimulated: true,
-    amount: session.totalAmount,
-    currency: 'usd'
-  };
+export const getStripePublishableKey = () => {
+  return STRIPE_PUBLISHABLE_KEY;
 };
 
 /**
- * Confirm payment success (compatibility with Stripe service)
- * @param {String} sessionId - Current payment session ID
- * @param {String} paymentIntentId - Payment intent ID
- * @returns {Promise} Confirmation response including order ID
+ * Check if Stripe is properly configured
+ * @returns {Boolean} Always returns true for this mock implementation
  */
-export const confirmPaymentSuccess = async (sessionId, paymentIntentId) => {
-  // Delegate to process payment
-  return processPayment(sessionId, {
-    cardholderName: 'Simulated Card',
-    cardNumber: '4242424242424242',
-    expiryDate: '12/29',
-    cvv: '123'
-  });
+export const isStripeConfigured = () => {
+  return true; // Mock is always "configured"
 };
 
 // Export all functions
 export default {
   initializePaymentSession,
   validateBuyerInfo,
-  processPayment,
+  createPaymentIntent,
+  confirmPaymentSuccess,
   applyPromoCode,
   getSessionStatus,
-  // Add Stripe compatibility methods
-  createPaymentIntent,
-  confirmPaymentSuccess
+  getStripePublishableKey,
+  isStripeConfigured
 };

@@ -27,8 +27,8 @@ if (typeof window !== 'undefined') {
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
 
 // Check if we have a valid-looking Google OAuth client ID
-const isValidGoogleClientId = googleClientId && 
-  googleClientId.includes('.apps.googleusercontent.com') && 
+const isValidGoogleClientId = googleClientId &&
+  googleClientId.includes('.apps.googleusercontent.com') &&
   googleClientId.length > 30;
 
 if (!isValidGoogleClientId) {
@@ -47,10 +47,10 @@ function initializeApp() {
       console.error('Root element not found!');
       return;
     }
-    
+
     // Use standard createRoot for client-side rendering
     const root = createRoot(rootElement);
-    
+
     // Render the app
     console.log('Static deployment: Using client-side rendering');
     root.render(

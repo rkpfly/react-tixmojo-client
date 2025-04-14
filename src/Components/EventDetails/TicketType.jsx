@@ -2,7 +2,7 @@ import React from 'react';
 
 const TicketType = ({ ticket, onAddToCart, onQuantityChange, quantity = 0 }) => {
   return (
-    <div 
+    <div
       style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -20,11 +20,11 @@ const TicketType = ({ ticket, onAddToCart, onQuantityChange, quantity = 0 }) => 
           {ticket.description}
         </div>
       </div>
-      
+
       {/* Price */}
-      <div 
-        style={{ 
-          flex: '1', 
+      <div
+        style={{
+          flex: '1',
           textAlign: 'center',
           fontSize: '15px',
           fontWeight: '600',
@@ -33,12 +33,12 @@ const TicketType = ({ ticket, onAddToCart, onQuantityChange, quantity = 0 }) => 
       >
         {`${ticket.price} ${ticket.currency}`}
       </div>
-      
+
       {/* Action */}
       <div style={{ flex: '1', display: 'flex', justifyContent: 'flex-end' }}>
         {quantity > 0 ? (
-          <div 
-            style={{ 
+          <div
+            style={{
               display: 'flex',
               alignItems: 'center',
               gap: '10px'
@@ -121,7 +121,7 @@ const TicketType = ({ ticket, onAddToCart, onQuantityChange, quantity = 0 }) => 
               e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            Add to Basket
+            Add to Cart
           </button>
         )}
       </div>

@@ -25,19 +25,25 @@ const Cards = memo(function Cards({
 
   const handleClick = useCallback(() => {
     // Navigate to event details page using id if available or create from event name
-    const eventId = id || eventName.toLowerCase().replace(/\s+/g, "-");
+    const eventId = id || eventName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-") // Replace any non-alphanumeric chars with hyphens
+      .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
     navigate(`/events/${eventId}`);
   }, [eventName, navigate, id]);
 
   const handleButtonClick = useCallback(
     (e) => {
       e.stopPropagation(); // Prevent triggering card click event
-      // Convert event name to URL-friendly format
-      const eventId = eventName.toLowerCase().replace(/\s+/g, "-");
+      // Navigate to event details page using id if available or create from event name
+      const eventId = id || eventName
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-") // Replace any non-alphanumeric chars with hyphens
+        .replace(/^-+|-+$/g, ""); // Remove leading/trailing hyphens
       // Navigate to event details page
       navigate(`/events/${eventId}`);
     },
-    [eventName, eventPrice, navigate]
+    [eventName, navigate, id]
   );
 
   // Lu.ma inspired card design

@@ -119,6 +119,14 @@ function EventDetails(props) {
   }, [showTicketSelection]);
 
   useEffect(() => {
+    // Validate the event ID format - only allow valid event names with "-" separators
+    const isValidEventId = /^[a-z0-9-]+$/.test(eventId) && !eventId.match(/^event-\d+$/);
+    if (!isValidEventId) {
+      console.error("Invalid event ID format:", eventId);
+      navigate("/page-not-found");
+      return;
+    }
+    
     // Check if we have server-side data
     const hasServerData = props.serverData && 
       props.serverData.event && 
